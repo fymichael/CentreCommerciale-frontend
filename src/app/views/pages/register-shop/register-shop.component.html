@@ -1,0 +1,131 @@
+<div class="auth-wrapper d-flex align-items-center justify-content-center min-vh-100 py-5">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col md="10" lg="8" xl="7">
+        
+        <div class="text-center mb-4">
+          <h2 class="fw-bold text-dark">M1P13mean-Fy-Chalman</h2>
+        </div>
+
+        <c-card class="auth-card border-0 shadow-lg">
+          <c-card-body class="p-4 p-sm-5">
+            <div class="mb-5 text-center">
+              <h3 class="fw-bold mb-1">Inscription Magasin</h3>
+              <p class="text-muted small">Configurez votre espace de vente en quelques minutes</p>
+            </div>
+
+            <form cForm>
+              <div class="form-section mb-4">
+                <p class="text-uppercase text-primary fw-bold small border-bottom pb-2 mb-3">1. Informations de la Boutique</p>
+                
+                <div class="mb-3">
+                    <label class="form-label-custom" for="username">Nom complet du propriétaire</label>
+                    <c-input-group class="custom-input-group">
+                      <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilUser" size="sm"></svg></span>
+                      <input cFormControl id="username" placeholder="ex: Jean Dupont" class="border-start-0 ps-0" />
+                    </c-input-group>
+                </div>
+
+                <c-row>
+                  <c-col md="6" class="mb-3">
+                    <label class="form-label-custom" for="shopname">Nom du Magasin</label>
+                    <c-input-group class="custom-input-group">
+                      <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilStore" size="sm"></svg></span>
+                      <input cFormControl id="shopname" placeholder="Le nom de votre enseigne" class="border-start-0 ps-0" />
+                    </c-input-group>
+                  </c-col>
+                  <c-col md="6" class="mb-3">
+                    <label class="form-label-custom" for="shoptype">Secteur d'activité</label>
+                    <c-input-group class="custom-input-group">
+                      <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilTags" size="sm"></svg></span>
+                      <select id="shoptype" class="form-select border-start-0 ps-0 shadow-none">
+                        <option value="" disabled selected>Choisir...</option>
+                        <option value="mode">Mode</option>
+                        <option value="electronique">Électronique</option>
+                        <option value="alimentation">Alimentation</option>
+                      </select>
+                    </c-input-group>
+                  </c-col>
+                </c-row>
+
+                <div class="mb-3">
+                  <label class="form-label-custom" for="slogan">Slogan ou courte description</label>
+                  <c-input-group class="custom-input-group">
+                    <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilChatBubble" size="sm"></svg></span>
+                    <input cFormControl id="slogan" placeholder="Votre phrase d'accroche" class="border-start-0 ps-0" />
+                  </c-input-group>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label-custom" for="nifStat">Identifiant Fiscal (NIF / STAT)</label>
+                  <c-input-group class="custom-input-group">
+                    <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilLibrary" size="sm"></svg></span>
+                    <input cFormControl id="nifStat" placeholder="Numéro officiel" class="border-start-0 ps-0" />
+                  </c-input-group>
+                </div>
+              </div>
+
+              <div class="form-section mb-4">
+                <p class="text-uppercase text-primary fw-bold small border-bottom pb-2 mb-3">2. Sécurité & Compte</p>
+                
+                <div class="mb-3">
+                  <label class="form-label-custom" for="email">Email de connexion</label>
+                  <c-input-group class="custom-input-group">
+                    <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilEnvelopeOpen" size="sm"></svg></span>
+                    <input cFormControl id="email" type="email" placeholder="email@boutique.com" class="border-start-0 ps-0" />
+                  </c-input-group>
+                </div>
+
+                <c-row>
+                  <c-col md="6" class="mb-3">
+                    <label class="form-label-custom" for="password">Mot de passe</label>
+                    <c-input-group class="custom-input-group">
+                      <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilLockLocked" size="sm"></svg></span>
+                      <input cFormControl id="password" type="password" placeholder="••••••••" class="border-start-0 ps-0" />
+                    </c-input-group>
+                  </c-col>
+                  <c-col md="6" class="mb-3">
+                    <label class="form-label-custom" for="repeatPassword">Confirmation</label>
+                    <c-input-group class="custom-input-group">
+                      <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilShieldCheck" size="sm"></svg></span>
+                      <input cFormControl id="repeatPassword" type="password" placeholder="••••••••" class="border-start-0 ps-0" />
+                    </c-input-group>
+                  </c-col>
+                </c-row>
+              </div>
+
+              <div class="form-section mb-4">
+                <p class="text-uppercase text-primary fw-bold small border-bottom pb-2 mb-3">3. Identité Visuelle</p>
+                <c-row>
+                  <c-col md="6" class="mb-3">
+                    <div class="file-upload-wrapper">
+                      <label class="form-label-custom">Logo Boutique</label>
+                      <input type="file" id="pdp" class="form-control form-control-sm border-0 shadow-none bg-light" />
+                    </div>
+                  </c-col>
+                  <c-col md="6" class="mb-3">
+                    <div class="file-upload-wrapper">
+                      <label class="form-label-custom">Bannière Magasin</label>
+                      <input type="file" id="coverPhoto" class="form-control form-control-sm border-0 shadow-none bg-light" />
+                    </div>
+                  </c-col>
+                </c-row>
+              </div>
+
+              <div class="d-grid gap-2">
+                <button cButton color="primary" class="btn-login py-2 fw-bold shadow">
+                  Finaliser l'inscription
+                </button>
+              </div>
+
+              <p class="text-muted text-center small mt-4">
+                Déjà gestionnaire ? 
+                <a [routerLink]="['/login']" class="text-primary text-decoration-none fw-bold">Se connecter</a>
+              </p>
+            </form>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>

@@ -1,0 +1,22 @@
+.form-section p.text-primary {
+  letter-spacing: 1px;
+  font-size: 0.75rem;
+  margin-top: 20px;
+}
+
+.auth-wrapper {
+  /* Permet de faire défiler proprement si le formulaire dépasse sur petit écran */
+  overflow-y: auto;
+}
+
+/* Style plus pro pour les inputs type "file" */
+input[type="file"]::file-selector-button {
+  background-color: #321fdb;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin-right: 10px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
