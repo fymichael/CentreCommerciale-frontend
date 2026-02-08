@@ -1,0 +1,11 @@
+/* Homogénéiser le champ date avec le style Mantis */
+input[type="date"] {
+  position: relative;
+  min-height: 45px;
+}
+
+/* Supprimer l'ombre bleue par défaut de Safari/Chrome sur mobile */
+input {
+  -webkit-appearance: none;
+  border-radius: 8px;
+}

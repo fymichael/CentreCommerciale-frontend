@@ -1,0 +1,125 @@
+<div class="p-4 bg-light min-vh-100">
+  <c-row>
+    <c-col xs>
+      <c-card class="mb-4 border-0 shadow-lg">
+        <c-card-body class="p-4">
+          <h3 class="fw-bold mb-4 text-dark">Boutiques en attente de validation</h3>
+          
+          <table
+            [hover]="true"
+            [responsive]="true"
+            [striped]="true"
+            align="middle"
+            cTable
+            class="mb-0 border"
+          >
+            <thead class="text-nowrap">
+              <tr>
+                <th class="bg-body-tertiary text-center"><svg cIcon name="cilStore"></svg></th>
+                <th class="bg-body-tertiary">Boutique</th>
+                <th class="bg-body-tertiary text-center">Propriétaire</th>
+                <th class="bg-body-tertiary text-center">Type / Secteur</th>
+                <th class="bg-body-tertiary text-center">Date de demande</th>
+                <th class="bg-body-tertiary text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (shop of shops; track shop.name) {
+                <tr>
+                  <td class="text-center">
+                    <c-avatar [src]="shop.avatar" />
+                  </td>
+                  <td>
+                    <div class="fw-bold text-primary">{{ shop.name }}</div>
+                  </td>
+                  <td class="text-center">
+                    {{ shop.owner }}
+                  </td>
+                  <td class="text-center">
+                    <c-badge color="secondary" variant="outline">{{ shop.type }}</c-badge>
+                  </td>
+                  <td class="text-center">
+                    <div class="small text-body-secondary">Soumis le</div>
+                    <div class="fw-semibold">{{ shop.requestDate | date:'dd/MM/yyyy' }}</div>
+                  </td>
+                  <td class="text-center">
+                    <button cButton color="success" variant="outline" size="sm" class="me-2" title="Valider">
+                      <svg cIcon name="cilCheck"></svg>
+                    </button>
+                    <button cButton color="danger" variant="outline" size="sm" title="Rejeter">
+                      <svg cIcon name="cilTrash"></svg>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
+
+  <c-row>
+    <c-col xs>
+      <c-card class="mb-4 border-0 shadow-sm">
+        <c-card-body class="p-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold text-dark mb-0">Liste des boutiques actives</h3>
+            <button cButton color="primary" size="sm">
+                <svg cIcon name="cilPlus" class="me-2"></svg> Ajouter une boutique
+            </button>
+          </div>
+          
+          <table
+            [hover]="true"
+            [responsive]="true"
+            [striped]="true"
+            align="middle"
+            cTable
+            class="mb-0 border"
+          >
+            <thead class="text-nowrap">
+              <tr>
+                <th class="bg-body-tertiary text-center"><svg cIcon name="cilHome"></svg></th>
+                <th class="bg-body-tertiary">Boutique</th>
+                <th class="bg-body-tertiary text-center">Propriétaire</th>
+                <th class="bg-body-tertiary text-center">Secteur</th>
+                <th class="bg-body-tertiary text-center">État</th>
+                <th class="bg-body-tertiary text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (shop of shops; track shop.name) {
+                <tr>
+                  <td class="text-center">
+                    <c-avatar [src]="shop.avatar" />
+                  </td>
+                  <td>
+                    <div class="fw-bold">{{ shop.name }}</div>
+                  </td>
+                  <td class="text-center">
+                    {{ shop.owner }}
+                  </td>
+                  <td class="text-center">
+                    <span class="small">{{ shop.type }}</span>
+                  </td>
+                  <td class="text-center">
+                    <c-badge color="success" shape="rounded-pill">Actif</c-badge>
+                  </td>
+                  <td class="text-center">
+                    <button cButton color="warning" variant="outline" size="sm" class="me-2">
+                      <svg cIcon name="cilPencil"></svg>
+                    </button>
+                    <button cButton color="danger" variant="outline" size="sm">
+                      <svg cIcon name="cilLockLocked"></svg>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
+</div>

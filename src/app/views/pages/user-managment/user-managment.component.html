@@ -1,0 +1,124 @@
+<div class="p-4 bg-light min-vh-100">
+    <!-- User list for validation (start) -->
+    <c-row>
+        <c-col xs>
+            <c-card class="mb-4 border-0 shadow-sm">
+                <c-card-body class="p-4">
+                    <h3 class="fw-bold mb-4 text-dark">Utilisateurs en attente de validation</h3>
+                    
+                    <table
+                    [hover]="true"
+                    [responsive]="true"
+                    [striped]="true"
+            align="middle"
+            cTable
+            class="mb-0 border"
+            >
+            <thead class="text-nowrap">
+                <tr>
+                    <th class="bg-body-tertiary text-center"><svg cIcon name="cilPeople"></svg></th>
+                    <th class="bg-body-tertiary">Nom</th>
+                    <th class="bg-body-tertiary text-center">Prénom</th>
+                    <th class="bg-body-tertiary">Numéro de CIN</th>
+                    <th class="bg-body-tertiary text-center">Date de demande</th>
+                    <th class="bg-body-tertiary text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (user of users; track user.cin) {
+                    <tr>
+                        <td class="text-center">
+                            <c-avatar [src]="user.avatar" status="warning" />
+                        </td>
+                        <td>
+                            <div class="fw-semibold">{{ user.name }}</div>
+                        </td>
+                  <td class="text-center">
+                    {{ user.firstname }}
+                  </td>
+                  <td>
+                      <span class="font-monospace">{{ user.cin }}</span>
+                    </td>
+                    <td class="text-center">
+                        <div class="small text-body-secondary">Soumis le</div>
+                        <div class="fw-semibold">{{ user.requestDate | date:'dd/MM/yyyy' }}</div>
+                    </td>
+                    <td class="text-center">
+                        <button cButton color="success" variant="outline" size="sm" class="me-2">
+                            <svg cIcon name="cilCheck"></svg>
+                        </button>
+                        <button cButton color="danger" variant="outline" size="sm">
+                      <svg cIcon name="cilTrash"></svg>
+                    </button>
+                </td>
+                </tr>
+            }
+            </tbody>
+          </table>
+        </c-card-body>
+    </c-card>
+</c-col>
+</c-row>
+<!-- User list for validation (end) -->
+<!-- User list (Start) -->
+<c-row>
+    <c-col xs>
+        <c-card class="mb-4 border-0 shadow-sm">
+            <c-card-body class="p-4">
+                <h3 class="fw-bold mb-4 text-dark">Liste des utilisateurs</h3>
+                
+                <table
+                [hover]="true"
+                [responsive]="true"
+                [striped]="true"
+        align="middle"
+        cTable
+        class="mb-0 border"
+        >
+        <thead class="text-nowrap">
+            <tr>
+                <th class="bg-body-tertiary text-center"><svg cIcon name="cilPeople"></svg></th>
+                <th class="bg-body-tertiary">Nom</th>
+                <th class="bg-body-tertiary text-center">Prénom</th>
+                <th class="bg-body-tertiary">Numéro de CIN</th>
+                <th class="bg-body-tertiary text-center">Date d'admission</th>
+                <th class="bg-body-tertiary text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (user of users; track user.cin) {
+                <tr>
+                    <td class="text-center">
+                        <c-avatar [src]="user.avatar" status="warning" />
+                    </td>
+                    <td>
+                        <div class="fw-semibold">{{ user.name }}</div>
+                    </td>
+              <td class="text-center">
+                {{ user.firstname }}
+              </td>
+              <td>
+                  <span class="font-monospace">{{ user.cin }}</span>
+                </td>
+                <td class="text-center">
+                    <div class="small text-body-secondary">Validé le</div>
+                    <div class="fw-semibold">{{ user.requestDate | date:'dd/MM/yyyy' }}</div>
+                </td>
+                <td class="text-center">
+                    <button cButton color="warning" variant="outline" size="sm" class="me-2">
+                        <svg cIcon name="cilPencil"></svg>
+                    </button>
+                    <button cButton color="danger" variant="outline" size="sm">
+                  <svg cIcon name="cilTrash"></svg>
+                </button>
+            </td>
+            </tr>
+        }
+        </tbody>
+      </table>
+    </c-card-body>
+  </c-card>
+</c-col>
+<!-- User list (End) -->
+</c-row>
+</div>

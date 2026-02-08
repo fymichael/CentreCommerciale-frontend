@@ -1,0 +1,117 @@
+<div class="auth-wrapper d-flex align-items-center justify-content-center min-vh-100 py-5">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col md="10" lg="8" xl="7">
+        
+        <div class="text-center mb-4">
+          <h2 class="fw-bold text-dark">M1P13mean-Fy-Chalman</h2>
+        </div>
+
+        <c-card class="auth-card border-0 shadow-lg">
+          <c-card-body class="p-4 p-sm-5">
+            <div class="mb-5 text-center">
+              <h3 class="fw-bold mb-1">Rejoignez-nous</h3>
+              <p class="text-muted small">Créez votre profil client pour une meilleure expérience</p>
+            </div>
+
+            <form cForm>
+              <div class="form-section mb-4">
+                <p class="text-uppercase text-primary fw-bold small border-bottom pb-2 mb-3">1. Informations Personnelles</p>
+                
+                <c-row>
+                  <c-col md="6" class="mb-3">
+                    <label class="form-label-custom" for="name">Nom</label>
+                    <c-input-group class="custom-input-group">
+                      <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilUser" size="sm"></svg></span>
+                      <input cFormControl id="name" placeholder="DUPONT" class="border-start-0 ps-0" />
+                    </c-input-group>
+                  </c-col>
+                  <c-col md="6" class="mb-3">
+                    <label class="form-label-custom" for="firstname">Prénom</label>
+                    <c-input-group class="custom-input-group">
+                      <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilUser" size="sm"></svg></span>
+                      <input cFormControl id="firstname" placeholder="Jean" class="border-start-0 ps-0" />
+                    </c-input-group>
+                  </c-col>
+                </c-row>
+
+                <c-row>
+                  <c-col md="6" class="mb-3">
+                    <label class="form-label-custom" for="dateOfBirth">Date de naissance</label>
+                    <c-input-group class="custom-input-group">
+                      <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilCalendar" size="sm"></svg></span>
+                      <input cFormControl id="dateOfBirth" type="date" class="border-start-0 ps-0" />
+                    </c-input-group>
+                  </c-col>
+                  <c-col md="6" class="mb-3">
+                    <label class="form-label-custom" for="cin">Numéro de CIN</label>
+                    <c-input-group class="custom-input-group">
+                      <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilContact" size="sm"></svg></span>
+                      <input cFormControl id="cin" placeholder="12 chiffres..." class="border-start-0 ps-0" />
+                    </c-input-group>
+                  </c-col>
+                </c-row>
+              </div>
+
+              <div class="form-section mb-4">
+                <p class="text-uppercase text-primary fw-bold small border-bottom pb-2 mb-3">2. Contact & Localisation</p>
+                <div class="mb-3">
+                  <label class="form-label-custom" for="address">Adresse de résidence</label>
+                  <c-input-group class="custom-input-group">
+                    <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilHome" size="sm"></svg></span>
+                    <input cFormControl id="address" placeholder="Ex: Lot IVG 123 Antananarivo" class="border-start-0 ps-0" />
+                  </c-input-group>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label-custom" for="contact">Téléphone</label>
+                  <c-input-group class="custom-input-group">
+                    <span cInputGroupText class="bg-white border-end-0">+261</span>
+                    <input cFormControl id="contact" placeholder="034 00 000 00" class="border-start-0 ps-0" />
+                  </c-input-group>
+                </div>
+              </div>
+
+              <div class="form-section mb-4">
+                <p class="text-uppercase text-primary fw-bold small border-bottom pb-2 mb-3">3. Identifiants</p>
+                <div class="mb-3">
+                  <label class="form-label-custom" for="email">Email</label>
+                  <c-input-group class="custom-input-group">
+                    <span cInputGroupText class="bg-white border-end-0">@</span>
+                    <input cFormControl id="email" type="email" placeholder="votre@email.com" class="border-start-0 ps-0" />
+                  </c-input-group>
+                </div>
+                <c-row>
+                  <c-col md="6" class="mb-3">
+                    <label class="form-label-custom" for="password">Mot de passe</label>
+                    <c-input-group class="custom-input-group">
+                      <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilLockLocked" size="sm"></svg></span>
+                      <input cFormControl id="password" type="password" placeholder="••••••••" class="border-start-0 ps-0" />
+                    </c-input-group>
+                  </c-col>
+                  <c-col md="6" class="mb-3">
+                    <label class="form-label-custom" for="repeatPassword">Confirmer</label>
+                    <c-input-group class="custom-input-group">
+                      <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilShieldCheck" size="sm"></svg></span>
+                      <input cFormControl id="repeatPassword" type="password" placeholder="••••••••" class="border-start-0 ps-0" />
+                    </c-input-group>
+                  </c-col>
+                </c-row>
+              </div>
+
+              <div class="d-grid mt-4">
+                <button cButton color="primary" class="btn-login py-2 fw-bold shadow">
+                  Créer mon profil
+                </button>
+              </div>
+
+              <p class="text-muted text-center small mt-4">
+                Déjà membre ? 
+                <a [routerLink]="['/login']" class="text-primary text-decoration-none fw-bold">Connectez-vous</a>
+              </p>
+            </form>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>
