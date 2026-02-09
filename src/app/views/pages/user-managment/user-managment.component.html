@@ -47,7 +47,7 @@
                         <button cButton color="success" variant="outline" size="sm" class="me-2">
                             <svg cIcon name="cilCheck"></svg>
                         </button>
-                        <button cButton color="danger" variant="outline" size="sm">
+                        <button cButton color="danger" variant="outline" size="sm" [cModalToggle]="rejectUserModal.id">
                       <svg cIcon name="cilTrash"></svg>
                     </button>
                 </td>
@@ -105,10 +105,7 @@
                     <div class="fw-semibold">{{ user.requestDate | date:'dd/MM/yyyy' }}</div>
                 </td>
                 <td class="text-center">
-                    <button cButton color="warning" variant="outline" size="sm" class="me-2">
-                        <svg cIcon name="cilPencil"></svg>
-                    </button>
-                    <button cButton color="danger" variant="outline" size="sm">
+                    <button cButton color="danger" variant="outline" size="sm" [cModalToggle]="deleteUserModal.id">
                   <svg cIcon name="cilTrash"></svg>
                 </button>
             </td>
@@ -122,3 +119,45 @@
 <!-- User list (End) -->
 </c-row>
 </div>
+<!-- Modals confirming rejection user admission (Start) -->
+<c-modal #rejectUserModal backdrop="static" id="rejectUserModal">
+    <c-modal-header>
+        <h5 cModalTitle>Confirmation de rejet d'admission</h5>
+        <button [cModalToggle]="rejectUserModal.id" cButtonClose></button>
+    </c-modal-header>
+    
+    <c-modal-body>
+        Voulez-vous rejeter l'admission de l'utilisateur <strong> Linda </strong> ?
+    </c-modal-body>
+    
+    <c-modal-footer>
+        <button [cModalToggle]="rejectUserModal.id" cButton color="secondary">
+            Annuler
+        </button>
+        <button cButton color="primary">
+            Confirmer
+        </button>
+    </c-modal-footer>
+</c-modal>
+<!-- Modals confirming rejection user admission (End) -->
+ 
+<!-- Modals confirming deleting user (Start) -->
+<c-modal #deleteUserModal backdrop="static" id="deleteUserModal">
+  <c-modal-header>
+    <h5 cModalTitle>Confirmation de suppression</h5>
+    <button [cModalToggle]="deleteUserModal.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    Voulez-vous supprimer l'utilisateur <strong> Linda </strong> ?
+  </c-modal-body>
+  
+  <c-modal-footer>
+    <button [cModalToggle]="deleteUserModal.id" cButton color="secondary">
+      Annuler
+    </button>
+    <button cButton color="primary">
+      Confirmer
+    </button>
+  </c-modal-footer>
+</c-modal>
+<!-- Modals confirming deleting user (End) -->

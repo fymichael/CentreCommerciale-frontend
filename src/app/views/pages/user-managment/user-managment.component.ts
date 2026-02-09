@@ -5,7 +5,8 @@ import {
   TableModule, 
   AvatarModule, 
   ButtonModule ,
-  BadgeModule
+  BadgeModule,
+  ModalModule
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { CommonModule } from '@angular/common';
@@ -22,6 +23,7 @@ import { CommonModule } from '@angular/common';
     IconModule, 
     ButtonModule,
     BadgeModule,
+    ModalModule,
     CommonModule
   ],
     templateUrl: './user-managment.component.html',

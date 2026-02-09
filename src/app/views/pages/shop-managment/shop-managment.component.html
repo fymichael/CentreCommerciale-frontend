@@ -46,7 +46,7 @@
                     <button cButton color="success" variant="outline" size="sm" class="me-2" title="Valider">
                       <svg cIcon name="cilCheck"></svg>
                     </button>
-                    <button cButton color="danger" variant="outline" size="sm" title="Rejeter">
+                    <button cButton color="danger" variant="outline" size="sm" title="Rejeter" [cModalToggle]="rejectShopModal.id">
                       <svg cIcon name="cilTrash"></svg>
                     </button>
                   </td>
@@ -107,11 +107,8 @@
                     <c-badge color="success" shape="rounded-pill">Actif</c-badge>
                   </td>
                   <td class="text-center">
-                    <button cButton color="warning" variant="outline" size="sm" class="me-2">
-                      <svg cIcon name="cilPencil"></svg>
-                    </button>
-                    <button cButton color="danger" variant="outline" size="sm">
-                      <svg cIcon name="cilLockLocked"></svg>
+                    <button cButton color="danger" variant="outline" size="sm" [cModalToggle]="deleteShopModal.id">
+                      <svg cIcon name="cilTrash"></svg>
                     </button>
                   </td>
                 </tr>
@@ -123,3 +120,46 @@
     </c-col>
   </c-row>
 </div>
+<!-- Modals confirming rejection shop admission (Start) -->
+<c-modal #rejectShopModal backdrop="static" id="rejectShopModal">
+  <c-modal-header>
+    <h5 cModalTitle>Confirmation de rejet d'admission</h5>
+    <button [cModalToggle]="rejectShopModal.id" cButtonClose></button>
+  </c-modal-header>
+  
+  <c-modal-body>
+    Voulez-vous rejeter l'admission de la boutique <strong> Mah Shop </strong> ?
+  </c-modal-body>
+  
+  <c-modal-footer>
+    <button [cModalToggle]="rejectShopModal.id" cButton color="secondary">
+      Annuler
+    </button>
+    <button cButton color="primary">
+      Confirmer
+    </button>
+  </c-modal-footer>
+</c-modal>
+<!-- Modals confirming rejection shop admission (End) -->
+ 
+<!-- Modals confirming deleting shop (Start) -->
+<c-modal #deleteShopModal backdrop="static" id="deleteShopModal">
+  <c-modal-header>
+    <h5 cModalTitle>Confirmation de suppression</h5>
+    <button [cModalToggle]="deleteShopModal.id" cButtonClose></button>
+  </c-modal-header>
+  
+  <c-modal-body>
+    Voulez-vous supprimer la boutique <strong> Mah Shop </strong> ?
+  </c-modal-body>
+  
+  <c-modal-footer>
+    <button [cModalToggle]="deleteShopModal.id" cButton color="secondary">
+      Annuler
+    </button>
+    <button cButton color="primary">
+      Confirmer
+    </button>
+  </c-modal-footer>
+</c-modal>
+<!-- Modals confirming deleting shop (End) -->
