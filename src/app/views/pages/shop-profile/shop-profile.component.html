@@ -1,0 +1,165 @@
+<div class="container-xxl py-4 overflow-y-auto shadow-sm bg-light" style="height: calc(100vh - 150px); scrollbar-width: thin;">
+  
+  <c-row class="g-4">
+    <c-col lg="4">
+      <c-card class="h-100 border-0 shadow-sm text-center">
+        <c-card-body class="d-flex flex-column align-items-center justify-content-center p-4">
+          <h4 class="fw-bold text-dark mb-2">Tech Shop</h4>
+          <c-avatar [src]="'https://via.placeholder.com/150/FF6347/FFFFFF?text=T'" size="xl" class="mb-3 border border-3 border-primary shadow-sm"></c-avatar>
+          <p class="text-muted fst-italic mb-3">"L'innovation à portée de main"</p>
+  
+          <div class="bg-light p-3 rounded-3 w-100 border">
+            <div class="text-warning mb-1">
+              <svg cIcon name="cilStar" size="lg"></svg>
+              <svg cIcon name="cilStar" size="lg"></svg>
+              <svg cIcon name="cilStar" size="lg"></svg>
+              <svg cIcon name="cilStar" size="lg"></svg>
+              <svg cIcon name="cilStarHalf" size="lg"></svg>
+            </div>
+            <div class="h5 fw-bold mb-0">4.5 / 5</div>
+            <small class="text-muted">(128 avis clients)</small>
+          </div>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  
+    <c-col lg="8">
+      <c-card class="h-100 border-0 shadow-sm">
+        <c-card-header class="bg-primary text-white fw-bold p-3">
+          Informations de la boutique
+        </c-card-header>
+        <c-card-body class="p-4">
+          <form cForm class="row g-3">
+            <c-col md="6">
+              <label cLabel for="ownerName">Nom du propriétaire</label>
+              <input cFormControl id="ownerName" type="text" value="Dupont Jean" />
+            </c-col>
+            <c-col md="6">
+              <label cLabel for="nif">NIF</label>
+              <input cFormControl id="nif" type="text" value="1234567890" />
+            </c-col>
+            <c-col md="6">
+              <label cLabel for="stat">STAT</label>
+              <input cFormControl id="stat" type="text" value="0987654321" />
+            </c-col>
+            <c-col md="6">
+              <label cLabel for="contact">Contact</label>
+              <input cFormControl id="contact" type="tel" value="+261 32 12 345 67" />
+            </c-col>
+            <c-col xs="12">
+              <label cLabel for="email">Email</label>
+              <input cFormControl id="email" type="email" value="contact.tech@example.com" />
+            </c-col>
+            <c-col md="6">
+              <label cLabel for="shopType">Type de la boutique</label>
+              <select cSelect id="shopType">
+                <option>Électronique</option>
+                <option>Textile</option>
+                <option>Alimentaire</option>
+              </select>
+            </c-col>
+            <c-col md="6">
+                <label cLabel>Type d'abonnement</label>
+                <div class="d-flex gap-2">
+                    <c-badge color="primary" class="py-2 px-3 fw-bold fs-6 flex-grow-1">Premium (actif)</c-badge>
+                    <button cButton color="info" variant="outline" size="sm">
+                        <svg cIcon name="cilPencil"></svg>
+                    </button>
+                </div>
+            </c-col>
+            <c-col xs="12" class="text-end">
+                <button cButton color="success" class="text-white shadow-sm">
+                  <svg cIcon name="cilSave" class="me-2"></svg> Enregistrer les modifications
+                </button>
+            </c-col>
+          </form>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
+  
+  <c-tabs [activeItemKey]="'products'" class="mt-4">
+    <c-tabs-list variant="tabs">
+      <button cTab itemKey="products"> <svg cIcon name="cilBasket" class="me-2"></svg> Mes Produits</button>
+      <button cTab itemKey="commandes"><svg cIcon name="cilTruck" class="me-2"></svg> Mes commandes</button>
+      <button cTab itemKey="dashboard"><svg cIcon name="cilSpeedometer" class="me-2"></svg> Dashboard </button>
+    </c-tabs-list>
+    
+    <c-tabs-content class="border border-top-0 rounded-bottom bg-white mb-4 shadow-sm">
+      
+      <c-tab-panel class="p-3" itemKey="products">
+        <div class="d-flex justify-content-between align-items-center mb-3 px-2">
+          <h5 class="fw-bold m-0">Catalogue Produits</h5>
+          <button cButton color="primary" size="sm"> + Nouveau Produit </button>
+        </div>
+        <table cTable [hover]="true" [striped]="true" align="middle" class="border m-0">
+          <thead class="bg-light">
+            <tr>
+              <th>Image</th>
+              <th>Désignation</th>
+              <th>Prix Unit.</th>
+              <th class="text-center">Stock</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (i of [1,2,3,4,5]; track i) {
+            <tr>
+              <td><c-avatar src="https://via.placeholder.com/40/007bff/fff?text=P{{i}}" shape="rounded"></c-avatar></td>
+              <td><strong>Produit #{{i}}</strong><br><small class="text-muted">Référence REF-00{{i}}</small></td>
+              <td>150 000 Ar</td>
+              <td class="text-center"><c-badge color="success">Disponible</c-badge></td>
+              <td class="text-center">
+                <button cButton color="warning" variant="outline" size="sm" class="me-1"><svg cIcon name="cilPencil"></svg></button>
+                <button cButton color="danger" variant="outline" size="sm"><svg cIcon name="cilTrash"></svg></button>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </c-tab-panel>
+
+      <c-tab-panel class="p-3" itemKey="commandes">
+        <h5 class="fw-bold mb-3 px-2">Suivi des commandes clients</h5>
+        <table cTable [hover]="true" align="middle" class="border m-0 text-nowrap">
+          <thead class="bg-light">
+            <tr>
+              <th>ID</th>
+              <th>Client</th>
+              <th>Date</th>
+              <th>Total</th>
+              <th>Statut</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (cmd of [
+                {id: '8821', client: 'Mialy Rakoto', date: '10/02/2026', total: '150 000 Ar', status: 'info', label: 'En préparation'},
+                {id: '8820', client: 'Jean Marc', date: '09/02/2026', total: '45 000 Ar', status: 'success', label: 'Livré'},
+                {id: '8819', client: 'Feno P.', date: '08/02/2026', total: '1 200 000 Ar', status: 'warning', label: 'En attente'}
+            ]; track cmd.id) {
+            <tr>
+              <td><strong>#{{cmd.id}}</strong></td>
+              <td>{{cmd.client}}</td>
+              <td>{{cmd.date}}</td>
+              <td><span class="fw-bold">{{cmd.total}}</span></td>
+              <td><c-badge [color]="cmd.status" shape="rounded-pill">{{cmd.label}}</c-badge></td>
+              <td class="text-center">
+                <button cButton color="dark" size="sm" variant="ghost"><svg cIcon name="cilPencil" class="me-1"></svg> Gérer</button>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </c-tab-panel>
+
+      <c-tab-panel class="p-3" itemKey="dashboard">
+        <div class="text-center p-5 text-muted fst-italic">
+          <svg cIcon name="cilSpeedometer" size="xl" class="mb-3"></svg><br>
+          Analyse des ventes en cours de chargement...
+        </div>
+      </c-tab-panel>
+
+    </c-tabs-content>
+  </c-tabs>
+</div>

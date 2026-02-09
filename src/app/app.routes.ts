@@ -53,20 +53,27 @@ export const routes: Routes = [
         path: 'pages',
         loadChildren: () => import('./views/pages/routes').then((m) => m.routes)
       },
-        {
-          path: 'user-managment',
-          loadComponent: () => import('./views/pages/user-managment/user-managment.component').then(m => m.UserManagmentComponent),
-          data: {
-            title: 'User Managment Page'
-          }
-        },
-        {
-          path: 'shop-managment',
-          loadComponent: () => import('./views/pages/shop-managment/shop-managment.component').then(m => m.ShopManagmentComponent),
-          data: {
-            title: 'Shop Managment Page'
-          }
-        },
+      {
+        path: 'user-managment',
+        loadComponent: () => import('./views/pages/user-managment/user-managment.component').then(m => m.UserManagmentComponent),
+        data: {
+          title: 'User Managment Page'
+        }
+      },
+      {
+        path: 'shop-managment',
+        loadComponent: () => import('./views/pages/shop-managment/shop-managment.component').then(m => m.ShopManagmentComponent),
+        data: {
+          title: 'Shop Managment Page'
+        }
+      },
+      {
+      path: 'shop-profile',
+      loadComponent: () => import('./views/pages/shop-profile/shop-profile.component').then(m => m.ShopProfileComponent),
+      data: {
+        title: 'Shop Profile Page'
+      }
+    },
         
     ]
   },

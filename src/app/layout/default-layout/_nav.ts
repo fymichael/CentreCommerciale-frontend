@@ -26,6 +26,15 @@ export const navItems: INavData[] = [
   },
   {
     title: true,
+    name: 'Espace Client'
+  },
+  {
+    name: 'Profil de la boutique',
+    url: '/shop-profile',
+    iconComponent: { name: 'cil-home' }
+  },
+  {
+    title: true,
     name: 'Theme'
   },
   {

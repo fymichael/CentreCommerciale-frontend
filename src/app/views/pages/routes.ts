@@ -49,5 +49,12 @@ export const routes: Routes = [
     data: {
       title: 'Shop Managment Page'
     }
+  },
+  {
+    path: 'shop-profile',
+    loadComponent: () => import('./shop-profile/shop-profile.component').then(m => m.ShopProfileComponent),
+    data: {
+      title: 'Shop Profile Page'
+    }
   }
 ];
