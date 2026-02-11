@@ -1,0 +1,84 @@
+<div class="container-xxl py-4 overflow-y-auto shadow-sm bg-light" style="height: calc(100vh - 150px); scrollbar-width: thin;">
+    <c-row class="justify-content-center mt-3">
+        <c-col lg="10">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-dark">Propulsez votre business</h2>
+                <p class="text-muted">Cliquez sur l'offre qui vous correspond pour la sélectionner</p>
+                <div class="d-flex justify-content-center mt-4 mb-2">
+                    <c-button-group aria-label="Selection période" class="shadow-sm">
+                        <button 
+                            cButton 
+                            [color]="!isAnnual ? 'primary' : 'outline-primary'" 
+                            (click)="isAnnual = false"
+                            class="px-4 py-2">
+                            Mensuel
+                        </button>
+                        <button 
+                            cButton 
+                            [color]="isAnnual ? 'primary' : 'outline-primary'"
+                            (click)="isAnnual = true"
+                            class="px-4 py-2">
+                            Annuel <c-badge color="success" class="ms-1">-15%</c-badge>
+                        </button>
+                    </c-button-group>
+                </div>
+            </div>
+
+            <c-row class="g-4 pb-4">
+                <c-col md="6">
+                    <c-card 
+                        (click)="selectedPlan = 'classique'"
+                        [ngClass]="{'border-primary shadow-lg': selectedPlan === 'classique', 'border-0 shadow-sm': selectedPlan !== 'classique'}"
+                        class="h-100 border-2 transition-all cursor-pointer"
+                        style="cursor: pointer; transition: 0.3s;">
+                        <c-card-body class="p-4 text-center">
+                            <h4 class="fw-bold text-uppercase small tracking-wider text-muted">Classique</h4>
+                            <div class="h2 fw-bold my-3 text-primary">
+                                {{ isAnnual ? '1 000 000 Ar' : '100 000 Ar' }}
+                                <small class="fs-6 text-muted fw-normal">/ {{ isAnnual ? 'an' : 'mois' }}</small>
+                            </div>
+                            <p class="text-muted small">L'essentiel pour débuter sereinement.</p>
+                            <hr class="my-4 opacity-25">
+                            <ul class="list-unstyled text-start ms-4">
+                                <li class="mb-3"><svg cIcon name="cilCheck" class="text-success me-2"></svg> Boutique en ligne basique</li>
+                                <li class="mb-3"><svg cIcon name="cilCheck" class="text-success me-2"></svg> Support client (Email)</li>
+                                <li class="mb-3"><svg cIcon name="cilCheck" class="text-success me-2"></svg> Gestion des stocks simplifiée</li>
+                            </ul>
+                        </c-card-body>
+                    </c-card>
+                </c-col>
+
+                <c-col md="6">
+                    <c-card 
+                        (click)="selectedPlan = 'premium'"
+                        [ngClass]="{'border-primary shadow-lg': selectedPlan === 'premium', 'border-0 shadow-sm': selectedPlan !== 'premium'}"
+                        class="h-100 border-2 transition-all cursor-pointer"
+                        style="cursor: pointer; transition: 0.3s;">
+                        <c-card-body class="p-4 text-center">
+                            <h4 class="fw-bold text-uppercase small tracking-wider text-muted">Premium</h4>
+                            <div class="h2 fw-bold my-3 text-primary">
+                                {{ isAnnual ? '2 000 000 Ar' : '200 000 Ar' }}
+                                <small class="fs-6 text-muted fw-normal">/ {{ isAnnual ? 'an' : 'mois' }}</small>
+                            </div>
+                            <p class="text-muted small">Pour les commerçants ambitieux.</p>
+                            <hr class="my-4 opacity-25">
+                            <ul class="list-unstyled text-start ms-4">
+                                <li class="mb-3"><svg cIcon name="cilCheck" class="text-success me-2"></svg> <strong>Visibilité prioritaire</strong></li>
+                                <li class="mb-3"><svg cIcon name="cilCheck" class="text-success me-2"></svg> Support 24/7 VIP</li>
+                                <li class="mb-3"><svg cIcon name="cilCheck" class="text-success : 'me-2'"></svg> Statistiques de ventes avancées</li>
+                                <li class="mb-3"><svg cIcon name="cilCheck" class="text-success me-2"></svg> Outils marketing inclus</li>
+                            </ul>
+                        </c-card-body>
+                    </c-card>
+                </c-col>
+            </c-row>
+
+            <div class="text-center mt-4" *ngIf="selectedPlan">
+                <button cButton color="primary" size="lg" class="px-5 shadow-lg border-0 fw-bold" [routerLink]="['/payment', selectedPlan, isAnnual ? 'annual' : 'monthly']">
+                    Confirmer l'offre {{ selectedPlan | titlecase }} 
+                    <span class="opacity-75 ms-1">({{ isAnnual ? 'Annuel' : 'Mensuel' }})</span>
+                </button>
+            </div>
+        </c-col>
+    </c-row>
+</div>

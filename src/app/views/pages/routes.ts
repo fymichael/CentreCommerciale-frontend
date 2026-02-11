@@ -56,5 +56,12 @@ export const routes: Routes = [
     data: {
       title: 'Shop Profile Page'
     }
+  },
+  {
+    path: 'subscription-shop',
+    loadComponent: () => import('./subscription-shop/subscription-shop.component').then(m => m.SubscriptionShopComponent),
+    data: {
+      title: 'Subscription Shop Page'
+    }
   }
 ];

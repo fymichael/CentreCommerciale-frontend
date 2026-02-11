@@ -1,11 +1,17 @@
 // shop-profile.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { AvatarModule, BadgeModule, ButtonModule, CardModule, ColComponent, FormControlDirective, FormDirective, FormLabelDirective, InputGroupTextDirective, RowComponent } from '@coreui/angular';
+import { AvatarModule, BadgeModule, ButtonModule, CardModule, ColComponent, FormControlDirective, FormDirective, FormLabelDirective, RowComponent } from '@coreui/angular';
 import { CommonModule } from '@angular/common';
 import { IconModule } from '@coreui/icons-angular';
 import { Tabs2Module, TableModule } from '@coreui/angular';
 import { cilBasket, cilSpeedometer, cilTruck } from '@coreui/icons';
+import { RouterLink } from '@angular/router';
+import { ModalComponent, ModalModule } from '@coreui/angular';
+import { ShopProductComponent } from '../../components/shop-product/shop-product.component';
+import { ShopOrderComponent } from '../../components/shop-order/shop-order.component';
+import { StockManagmentComponent } from '../../components/stock-managment/stock-managment.component';
+import { ShopDashboardComponent } from '../../components/shop-dashboard/shop-dashboard.component';
 
 @Component({
   selector: 'app-shop-profile',
@@ -22,9 +28,15 @@ import { cilBasket, cilSpeedometer, cilTruck } from '@coreui/icons';
     FormControlDirective,
     FormLabelDirective,
     IconModule,
-    InputGroupTextDirective,
     Tabs2Module,
-    TableModule
+    TableModule,
+    RouterLink,
+    ModalModule,
+    ModalComponent,
+    ShopProductComponent,
+    ShopOrderComponent,
+    StockManagmentComponent,
+    ShopDashboardComponent
   ],
   templateUrl: './shop-profile.component.html',
   styleUrl: './shop-profile.component.scss'
