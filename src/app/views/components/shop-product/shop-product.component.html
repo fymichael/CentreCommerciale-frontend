@@ -1,0 +1,179 @@
+<div class="d-flex justify-content-between align-items-center mb-3 px-2">
+    <h5 class="fw-bold m-0">Catalogue Produits</h5>
+    <button cButton color="primary" size="sm" [cModalToggle]="addProductModal.id"> + Nouveau Produit </button>
+</div>
+<table cTable [hover]="true" [striped]="true" align="middle" class="border m-0">
+    <thead class="bg-light">
+    <tr>
+        <th>Image</th>
+        <th>Désignation</th>
+        <th>Prix Unit.</th>
+        <th class="text-center">Stock</th>
+        <th class="text-center">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for (i of [1,2,3,4,5]; track i) {
+    <tr>
+        <td><c-avatar src="https://via.placeholder.com/40/007bff/fff?text=P{{i}}" shape="rounded"></c-avatar></td>
+        <td><strong>Produit #{{i}}</strong><br><small class="text-muted">Référence REF-00{{i}}</small></td>
+        <td>150 000 Ar</td>
+        <td class="text-center"><c-badge color="success">Disponible</c-badge></td>
+        <td class="text-center">
+        <button cButton color="warning" variant="outline" size="sm" class="me-1" [cModalToggle]="modifyProductModal.id"><svg cIcon name="cilPencil"></svg></button>
+        <button cButton color="danger" variant="outline" size="sm" [cModalToggle]="dropProductModal.id"><svg cIcon name="cilTrash"></svg></button>
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>
+
+<!-- Modals confirming to delete product (Start) -->
+<c-modal #dropProductModal backdrop="static" id="dropProductModal">
+  <c-modal-header>
+    <h5 cModalTitle>Confirmation de suppression du produit</h5>
+    <button [cModalToggle]="dropProductModal.id" cButtonClose></button>
+  </c-modal-header>
+  
+  <c-modal-body>
+    Voulez-vous supprimer le produit <strong> Iphone 17 </strong> ?
+  </c-modal-body>
+  
+  <c-modal-footer>
+    <button [cModalToggle]="dropProductModal.id" cButton color="secondary">
+      Annuler
+    </button>
+    <button cButton color="primary">
+      Confirmer
+    </button>
+  </c-modal-footer>
+</c-modal>
+<!-- Modals confirming to delete product (End) -->
+
+<!-- Modals to add new product (Start) -->
+<c-modal #addProductModal backdrop="static" id="addProductModal" size="lg">
+  <c-modal-header class="bg-primary text-white">
+    <h5 cModalTitle class="fw-bold">
+      <svg cIcon name="cilBasket" class="me-2"></svg>Ajout d'un nouveau produit
+    </h5>
+    <button [cModalToggle]="addProductModal.id" cButtonClose class="btn-close-white"></button>
+  </c-modal-header>
+  
+  <c-modal-body>
+    <form cForm class="row g-3">
+      <c-col md="4">
+        <label cLabel for="productCode" class="fw-semibold">Code Produit</label>
+        <input cFormControl id="productCode" type="text" placeholder="Ex: ELEC-SAM-001" />
+      </c-col>
+      <c-col md="8">
+        <label cLabel for="productLabel" class="fw-semibold">Nom du produit</label>
+        <input cFormControl id="productLabel" type="text" placeholder="Nom du produit" />
+      </c-col>
+
+      <c-col xs="12">
+        <label cLabel for="productDesc" class="fw-semibold">Description</label>
+        <textarea cFormControl id="productDesc" rows="3" placeholder="Détails techniques, garantie, état..."></textarea>
+      </c-col>
+
+      <c-col md="6">
+        <label cLabel for="productPrice" class="fw-semibold">Prix Unitaire (Ar)</label>
+        <input cFormControl id="productPrice" type="number" placeholder="0.00" />
+      </c-col>
+      <c-col md="6">
+        <label cLabel for="productDiscount" class="fw-semibold">Remise (%)</label>
+        <input cFormControl id="productDiscount" type="number" placeholder="0" />
+      </c-col>
+
+      <c-col md="6">
+        <label cLabel for="productCategory" class="fw-semibold">Catégorie</label>
+        <select cSelect id="productCategory" class="form-select border-start-0 ps-0 shadow-none">
+          <option value="" disabled selected>Choisir une catégorie...</option>
+          <option value="electronics">Électronique</option>
+          <option value="textile">Textile / Mode</option>
+          <option value="food">Alimentaire</option>
+          <option value="home">Maison & Déco</option>
+        </select>
+      </c-col>
+
+      <c-col md="6">
+        <label cLabel for="productPhoto" class="fw-semibold">Photo du produit</label>
+        <input cFormControl id="productPhoto" type="file" />
+        <small class="text-muted">Format JPG, PNG (Max. 2Mo)</small>
+      </c-col>
+    </form>
+  </c-modal-body>
+  
+  <c-modal-footer>
+    <button [cModalToggle]="addProductModal.id" cButton color="secondary" variant="outline">
+      Annuler
+    </button>
+    <button cButton color="primary" class="px-4 shadow-sm">
+      <svg cIcon name="cilSave" class="me-2"></svg>Enregistrer le produit
+    </button>
+  </c-modal-footer>
+</c-modal>
+<!-- Modals confirming to add new product (End) -->
+
+<!-- Modals to modify product (Start) -->
+<c-modal #modifyProductModal backdrop="static" id="modifyProductModal" size="lg">
+  <c-modal-header class="bg-primary text-white">
+    <h5 cModalTitle class="fw-bold">
+      <svg cIcon name="cilBasket" class="me-2"></svg>Modifier produit
+    </h5>
+    <button [cModalToggle]="modifyProductModal.id" cButtonClose class="btn-close-white"></button>
+  </c-modal-header>
+  
+  <c-modal-body>
+    <form cForm class="row g-3">
+      <c-col md="4">
+        <label cLabel for="productCode" class="fw-semibold">Code Produit</label>
+        <input cFormControl id="productCode" type="text" value="Ex: ELEC-SAM-001" />
+      </c-col>
+      <c-col md="8">
+        <label cLabel for="productLabel" class="fw-semibold">Nom du produit</label>
+        <input cFormControl id="productLabel" type="text" value="Nom du produit" />
+      </c-col>
+
+      <c-col xs="12">
+        <label cLabel for="productDesc" class="fw-semibold">Description</label>
+        <textarea cFormControl id="productDesc" rows="3" value="Détails techniques, garantie, état..."></textarea>
+      </c-col>
+
+      <c-col md="6">
+        <label cLabel for="productPrice" class="fw-semibold">Prix Unitaire (Ar)</label>
+        <input cFormControl id="productPrice" type="number" value="0.00" />
+      </c-col>
+      <c-col md="6">
+        <label cLabel for="productDiscount" class="fw-semibold">Remise (%)</label>
+        <input cFormControl id="productDiscount" type="number" value="0" />
+      </c-col>
+
+      <c-col md="6">
+        <label cLabel for="productCategory" class="fw-semibold">Catégorie</label>
+        <select cSelect id="productCategory" class="form-select border-start-0 ps-0 shadow-none">
+          <option value="" disabled selected>Choisir une catégorie...</option>
+          <option value="electronics">Électronique</option>
+          <option value="textile">Textile / Mode</option>
+          <option value="food">Alimentaire</option>
+          <option value="home">Maison & Déco</option>
+        </select>
+      </c-col>
+
+      <c-col md="6">
+        <label cLabel for="productPhoto" class="fw-semibold">Photo du produit</label>
+        <input cFormControl id="productPhoto" type="file" />
+        <small class="text-muted">Format JPG, PNG (Max. 2Mo)</small>
+      </c-col>
+    </form>
+  </c-modal-body>
+  
+  <c-modal-footer>
+    <button [cModalToggle]="modifyProductModal.id" cButton color="secondary" variant="outline">
+      Annuler
+    </button>
+    <button cButton color="primary" class="px-4 shadow-sm">
+      <svg cIcon name="cilSave" class="me-2"></svg>Enregistrer le produit
+    </button>
+  </c-modal-footer>
+</c-modal>
+<!-- Modals confirming to modify product (End) -->

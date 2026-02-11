@@ -1,0 +1,31 @@
+<h5 class="fw-bold mb-3 px-2">Suivi des commandes clients</h5>
+<table cTable [hover]="true" align="middle" class="border m-0 text-nowrap">
+    <thead class="bg-light">
+    <tr>
+        <th>ID</th>
+        <th>Client</th>
+        <th>Date</th>
+        <th>Total</th>
+        <th>Statut</th>
+        <th class="text-center">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for (cmd of [
+        {id: '8821', client: 'Mialy Rakoto', date: '10/02/2026', total: '150 000 Ar', status: 'info', label: 'En préparation'},
+        {id: '8820', client: 'Jean Marc', date: '09/02/2026', total: '45 000 Ar', status: 'success', label: 'Livré'},
+        {id: '8819', client: 'Feno P.', date: '08/02/2026', total: '1 200 000 Ar', status: 'warning', label: 'En attente'}
+    ]; track cmd.id) {
+    <tr>
+        <td><strong>#{{cmd.id}}</strong></td>
+        <td>{{cmd.client}}</td>
+        <td>{{cmd.date}}</td>
+        <td><span class="fw-bold">{{cmd.total}}</span></td>
+        <td><c-badge [color]="cmd.status" shape="rounded-pill">{{cmd.label}}</c-badge></td>
+        <td class="text-center">
+        <button cButton color="dark" size="sm" variant="ghost" ><svg cIcon name="cilPencil" class="me-1"></svg> Gérer</button>
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>

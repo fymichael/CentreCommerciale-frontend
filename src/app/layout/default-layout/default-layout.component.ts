@@ -17,6 +17,7 @@ import {
 
 import { DefaultFooterComponent, DefaultHeaderComponent } from './';
 import { navItems } from './_nav';
+import { Title } from '@angular/platform-browser';
 
 function isOverflown(element: HTMLElement) {
   return (
@@ -48,5 +49,8 @@ function isOverflown(element: HTMLElement) {
   ]
 })
 export class DefaultLayoutComponent {
+  constructor(private titleService: Title) {
+    this.titleService.setTitle('M1P13mean-Fy-Chalman - Centre Commercial');
+  }
   public navItems = [...navItems];
 }
