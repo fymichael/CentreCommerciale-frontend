@@ -1,0 +1,62 @@
+.filter-sidebar {
+    width: 380px !important; // Un peu plus large pour le confort
+    border-left: 1px solid rgba(0,0,0,0.05);
+
+    .uppercase {
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 0.75rem;
+    }
+
+    .form-control-custom, .form-select-custom {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        transition: all 0.2s ease-in-out;
+        font-size: 0.9rem;
+
+        &:focus {
+            border-color: #321fdb; // Couleur primaire CoreUI
+            box-shadow: 0 0 0 0.25rem rgba(50, 31, 219, 0.1) !important;
+            background-color: #fff;
+        }
+    }
+
+    .btn-apply {
+        border-radius: 8px;
+        font-weight: 600;
+        transition: transform 0.1s;
+        height: 40px;
+
+        &:active {
+            transform: scale(0.98);
+        }
+    }
+
+    .btn-reset {
+        font-size: 0.85rem;
+        font-weight: 500;
+        
+        &:hover {
+            background-color: #f8f9fa;
+            }
+    }
+    .btn-close-custom {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: #6c757d;
+        transition: color 0.2s;
+        size: 1.5rem;
+
+    }
+}
+
+// Style spécial pour les inputs de type date
+input[type="date"] {
+    position: relative;
+    &::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        opacity: 0.6;
+        &:hover { opacity: 1; }
+    }
+}

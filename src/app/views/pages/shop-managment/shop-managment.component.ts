@@ -10,6 +10,7 @@ import {
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { CommonModule } from '@angular/common';
+import { FilterField, FilterSidebarComponent } from '../../components/filter-sidebar/filter-sidebar.component';
 
 
 @Component({
@@ -24,12 +25,29 @@ import { CommonModule } from '@angular/common';
     ButtonModule,
     BadgeModule,
     CommonModule,
-    ModalModule
+    ModalModule,
+    FilterSidebarComponent
   ],
     templateUrl: './shop-managment.component.html',
   styleUrl: './shop-managment.component.scss',
 })
 export class ShopManagmentComponent {
+    shopFilterFields: FilterField[] = [
+    { name: 'shop', label: 'Boutique  ', type: 'text', placeholder: 'Ex: Tech' },
+    { name: 'owner', label: 'Propriétaire', type: 'text', placeholder: 'Ex: Jean' },
+    { 
+      name: 'sector', 
+      label: 'Secteur d\'activité', 
+      type: 'select', 
+      placeholder: 'Choisir le secteur...',
+      options: [
+        { label: 'Electroménager', value: 'E' },
+        { label: 'Textile', value: 'T' }
+      ]
+    },
+    { name: 'dateAdmission', label: "Date d'admission", type: 'date' }
+  ];
+
   // Données statiques
   shops = [
     {
@@ -47,4 +65,26 @@ export class ShopManagmentComponent {
       avatar: 'https://avatars.githubusercontent.com/u/2?v=4'
     }
   ];
+
+  filtersVisible = false;
+
+  toggleFilters() {
+    this.filtersVisible = !this.filtersVisible;
+  }
+
+  applyFilters() {
+    // Ta logique de recherche ici
+    console.log("Filtres appliqués");
+    this.filtersVisible = false; // Ferme le volet après recherche
+  }
+
+  onFilterReset() {
+    // Remise à zéro des champs
+    this.filtersVisible = false;
+  }
+
+  onFilterApplied(data: any) {
+  console.log('Données reçues du composant filtre :', data);
+  // Logique de filtrage de ta liste ici
+}
 }
