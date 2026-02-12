@@ -1,0 +1,48 @@
+<c-offcanvas [visible]="visible" placement="end" id="offcanvasFilters" backdrop="static" scroll="true" class="filter-sidebar shadow-lg">
+    <c-offcanvas-header class="border-bottom bg-light d-flex justify-content-between align-items-center h-40">
+        <h5 cOffcanvasTitle class="fw-bold text-primary m-0">
+            {{ title }}
+        </h5>
+        <button cButtonClose (click)="toggleFilters()" class="btn-close-custom"> x </button>
+    </c-offcanvas-header>
+    
+    <c-offcanvas-body class="p-4">
+        <form cForm>
+            <div *ngFor="let field of fields" class="mb-4">
+                <label cLabel [for]="field.name" class="form-label fw-semibold text-secondary small mb-2 uppercase">
+                    {{ field.label }}
+                </label>
+                
+                <div class="input-wrapper">
+                    <input *ngIf="field.type !== 'select'"
+                        cFormControl
+                        [id]="field.name"
+                        [type]="field.type"
+                        [placeholder]="field.placeholder || ''"
+                        [(ngModel)]="filterData[field.name]"
+                        [name]="field.name"
+                        class="form-control-custom shadow-sm py-2 w-100" />
+
+                    <select *ngIf="field.type === 'select'"
+                            cSelect
+                            [id]="field.name"
+                            [(ngModel)]="filterData[field.name]"
+                            [name]="field.name"
+                            class="form-select-custom shadow-sm py-2 w-100">
+                        <option value="" disabled selected>{{ field.placeholder || 'Sélectionner...' }}</option>
+                        <option *ngFor="let opt of field.options" [value]="opt.value">
+                            {{ opt.label }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="d-grid gap-3 mt-5 pt-3 border-top">
+                <button cButton color="primary" (click)="apply()">Appliquer les filtres</button>
+                <button cButton color="light" variant="ghost" (click)="reset()" class="btn-reset py-2 shadow-sm text-muted">
+                    Réinitialiser tout
+                </button>
+            </div>
+        </form>
+    </c-offcanvas-body>
+</c-offcanvas>

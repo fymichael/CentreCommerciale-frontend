@@ -5,6 +5,16 @@
         <c-card-body class="p-4">
           <h3 class="fw-bold mb-4 text-dark">Boutiques en attente de validation</h3>
           
+          <button cButton color="secondary" (click)="filtersVisible = true" class="mb-3">Filtrer</button>
+
+          <app-filter-sidebar 
+              [(visible)]="filtersVisible"
+              [fields]="shopFilterFields"
+              title="Filtrer les boutiques"
+              (filterApplied)="onFilterApplied($event)"
+              (filterReset)="onFilterReset()">
+          </app-filter-sidebar>
+
           <table
             [hover]="true"
             [responsive]="true"
@@ -67,6 +77,16 @@
             <h3 class="fw-bold text-dark mb-0">Liste des boutiques actives</h3>
           </div>
           
+          <button cButton color="secondary" (click)="filtersVisible = true" class="mb-3">Filtrer</button>
+
+          <app-filter-sidebar 
+              [(visible)]="filtersVisible"
+              [fields]="shopFilterFields"
+              title="Filtrer les boutiques"
+              (filterApplied)="onFilterApplied($event)"
+              (filterReset)="onFilterReset()">
+          </app-filter-sidebar>
+
           <table
             [hover]="true"
             [responsive]="true"

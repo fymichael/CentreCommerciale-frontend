@@ -5,15 +5,25 @@
             <c-card class="mb-4 border-0 shadow-sm">
                 <c-card-body class="p-4">
                     <h3 class="fw-bold mb-4 text-dark">Utilisateurs en attente de validation</h3>
-                    
+
+                    <button cButton color="secondary" (click)="filtersVisible = true" class="mb-3">Filtrer</button>
+
+                    <app-filter-sidebar 
+                        [(visible)]="filtersVisible"
+                        [fields]="userFilterFields"
+                        title="Filtrer les utilisateurs"
+                        (filterApplied)="onFilterApplied($event)"
+                        (filterReset)="onFilterApplied({})">
+                    </app-filter-sidebar>
+
                     <table
-                    [hover]="true"
-                    [responsive]="true"
-                    [striped]="true"
-            align="middle"
-            cTable
-            class="mb-0 border"
-            >
+                        [hover]="true"
+                        [responsive]="true"
+                        [striped]="true"
+                        align="middle"
+                        cTable
+                        class="mb-0 border"
+                    >
             <thead class="text-nowrap">
                 <tr>
                     <th class="bg-body-tertiary text-center"><svg cIcon name="cilPeople"></svg></th>
@@ -67,6 +77,16 @@
             <c-card-body class="p-4">
                 <h3 class="fw-bold mb-4 text-dark">Liste des utilisateurs</h3>
                 
+                <button cButton color="secondary" (click)="filtersVisible = true" class="mb-3">Filtrer</button>
+
+                <app-filter-sidebar 
+                    [(visible)]="filtersVisible"
+                    [fields]="userFilterFields"
+                    title="Filtrer les utilisateurs"
+                    (filterApplied)="onFilterApplied($event)"
+                    (filterReset)="onFilterApplied({})">
+                </app-filter-sidebar>
+
                 <table
                 [hover]="true"
                 [responsive]="true"
