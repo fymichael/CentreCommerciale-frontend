@@ -28,7 +28,7 @@
                             [id]="field.name"
                             [(ngModel)]="filterData[field.name]"
                             [name]="field.name"
-                            class="form-select-custom shadow-sm py-2 w-100">
+                            class="form-select border-start-0 ps-0 shadow-none w-100">
                         <option value="" disabled selected>{{ field.placeholder || 'Sélectionner...' }}</option>
                         <option *ngFor="let opt of field.options" [value]="opt.value">
                             {{ opt.label }}
