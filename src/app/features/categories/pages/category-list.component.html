@@ -1,0 +1,141 @@
+<div class="p-4 bg-light min-vh-100">
+    <c-row>
+        <c-col xs>
+            <c-card class="mb-4 border-0 shadow-lg">
+                <c-card-body class="p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-bold text-dark mb-0">Liste des categories</h3>
+                        <button
+                            cButton
+                            color="primary"
+                            size="sm"
+                            (click)="openAddModal()"
+                        >
+                        <svg cIcon name="cilPlus" class="me-2"></svg>
+                        Ajouter un categorie
+                        </button>
+                    </div>
+                    <div class="position-relative">       
+                        <div *ngIf="loading"
+                            class="position-absolute top-50 start-50 translate-middle z-3">
+                            <c-spinner color="primary"></c-spinner>
+                        </div>
+
+
+                        <table
+                            [hover]="true"
+                            [responsive]="true"
+                            [striped]="true"
+                            align="middle"
+                            cTable
+                            class="mb-0 border position-relative"
+                        >
+
+
+                            <thead class="text-nowrap">
+                            <tr>
+                                <th class="bg-body-tertiary text-center">Nom</th>
+                                <th class="bg-body-tertiary text-center">Description</th>
+                                <th class="bg-body-tertiary text-center">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let category of categorys; trackBy: trackById">   
+                                    <td>
+                                        <div class="fw-bold text-center">{{ category.name }}</div>
+                                    </td>
+                                        <td class="text-center">
+                                            {{ category.description }}
+                                        </td>
+                                        <td class="text-center">
+                                            <button
+                                                cButton
+                                                color="warning"
+                                                variant="outline"
+                                                size="sm"
+                                                class="me-2"
+                                                title="Modifier"
+                                                (click)="openEditModal(category)"
+                                            >
+                                                <svg cIcon name="cilPencil"></svg>
+                                            </button>
+
+                                            <button
+                                                cButton
+                                                color="danger"
+                                                variant="outline"
+                                                size="sm"
+                                                title="Supprimer"
+                                                (click)="deleteCategory(category._id)"
+                                            >
+                                                <svg cIcon name="cilTrash"></svg>
+                                            </button>
+                                        </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </c-card-body>
+            </c-card>
+        </c-col>
+    </c-row>
+
+    <c-modal
+        [visible]="addModalVisible"
+        (visibleChange)="addModalVisible = $event"
+        size="lg"
+    >
+        <c-modal-header>
+            <h5 class="modal-title">
+                {{ isEditMode ? 'Modifier la catégorie' : 'Ajouter une catégorie' }}
+            </h5>
+            <button cButtonClose></button>
+        </c-modal-header>
+
+        <c-modal-body>
+            <form [formGroup]="categoryForm" class="needs-validation">
+                <div class="mb-3">
+                <label class="form-label fw-semibold">Nom de la catégorie</label>
+                <input
+                    cFormControl
+                    type="text"
+                    formControlName="name"
+                    class="form-control form-control-lg"
+                    placeholder="Entrez le nom de la catégorie"
+                />
+                <div *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched" class="text-danger small mt-1">
+                    Le nom est obligatoire.
+                </div>
+                </div>
+
+                <div class="mb-3">
+                <label class="form-label fw-semibold">Description</label>
+                <input
+                    cFormControl
+                    type="text"
+                    formControlName="description"
+                    class="form-control form-control-lg"
+                    placeholder="Entrez une description"
+                />
+                <div *ngIf="categoryForm.get('description')?.invalid && categoryForm.get('description')?.touched" class="text-danger small mt-1">
+                    La description est obligatoire.
+                </div>
+                </div>
+            </form>
+        </c-modal-body>
+
+
+        <c-modal-footer>
+            <button cButton color="secondary" (click)="closeAddModal()">
+                Annuler
+            </button>
+            <button
+                cButton
+                color="primary"
+                (click)="saveCategory()"
+                [disabled]="categoryForm.invalid"
+            >
+                Enregistrer
+            </button>
+        </c-modal-footer>
+    </c-modal>

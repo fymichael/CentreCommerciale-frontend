@@ -10,23 +10,20 @@ import {
 } from '@angular/router';
 import { IconSetService } from '@coreui/icons-angular';
 import { routes } from './app.routes';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes,
-      withRouterConfig({
-        onSameUrlNavigation: 'reload'
-      }),
+      withEnabledBlockingInitialNavigation(),
       withInMemoryScrolling({
         scrollPositionRestoration: 'top',
         anchorScrolling: 'enabled'
-      }),
-      withEnabledBlockingInitialNavigation(),
-      withViewTransitions(),
-      withHashLocation()
+      })
     ),
+    provideHttpClient(), 
     IconSetService,
-    provideAnimationsAsync()
+    provideAnimations()
   ]
 };
-

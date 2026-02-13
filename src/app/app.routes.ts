@@ -67,7 +67,20 @@ export const routes: Routes = [
             title: 'Shop Managment Page'
           }
         },
-        
+        {
+          path: 'category-managment',
+          loadComponent: () => import('./features/categories/pages/category-list.component').then(m => m.CategoryListComponent),
+          data: {
+            title: 'Category Managment Page'
+          }
+        },
+        {
+          path: 'product-managment',
+          loadComponent: () => import('./features/products/pages/product-list.component').then(m => m.ProductListComponent),
+          data: {
+            title: 'Product Managment Page'
+          }
+        },
     ]
   },
   {
