@@ -103,17 +103,12 @@
                       <input type="file" id="pdp" class="form-control form-control-sm border-0 shadow-none bg-light" />
                     </div>
                   </c-col>
-                  <c-col md="6" class="mb-3">
-                    <div class="file-upload-wrapper">
-                      <label class="form-label-custom">Bannière Magasin</label>
-                      <input type="file" id="coverPhoto" class="form-control form-control-sm border-0 shadow-none bg-light" />
-                    </div>
-                  </c-col>
+                  
                 </c-row>
               </div>
 
               <div class="d-grid gap-2">
-                <button cButton color="primary" class="btn-login py-2 fw-bold shadow">
+                <button cButton color="primary" class="btn-login py-2 fw-bold shadow" [routerLink]="['/shop-profile']">
                   Finaliser l'inscription
                 </button>
               </div>

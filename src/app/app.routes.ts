@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -18,16 +18,25 @@ export const routes: Routes = [
         loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
       },
       {
-        path: 'theme',
-        loadChildren: () => import('./views/theme/routes').then((m) => m.routes)
+        path: 'user-managment',
+        loadComponent: () => import('./views/pages/user-managment/user-managment.component').then(m => m.UserManagmentComponent),
+        data: {
+          title: 'User Managment Page'
+        }
       },
       {
-        path: 'base',
-        loadChildren: () => import('./views/base/routes').then((m) => m.routes)
+        path: 'shop-managment',
+        loadComponent: () => import('./views/pages/shop-managment/shop-managment.component').then(m => m.ShopManagmentComponent),
+        data: {
+          title: 'Shop Managment Page'
+        }
       },
       {
-        path: 'buttons',
-        loadChildren: () => import('./views/buttons/routes').then((m) => m.routes)
+        path: 'shop-profile',
+        loadComponent: () => import('./views/pages/shop-profile/shop-profile.component').then(m => m.ShopProfileComponent),
+        data: {
+          title: 'Shop Profile Page'
+        }
       },
       {
         path: 'forms',
@@ -81,6 +90,14 @@ export const routes: Routes = [
             title: 'Product Managment Page'
           }
         },
+        {
+        path: 'subscription-shop',
+        loadComponent: () => import('./views/pages/subscription-shop/subscription-shop.component').then(m => m.SubscriptionShopComponent),
+        data: {
+          title: 'Subscription Shop Page'
+        }
+      }
+        
     ]
   },
   {
@@ -118,5 +135,5 @@ export const routes: Routes = [
       title: 'Register Shop Page'
     }
   },
-  { path: '**', redirectTo: 'dashboard' }
+  { path: '**', redirectTo: 'login' }
 ];
