@@ -18,6 +18,8 @@ import { finalize } from 'rxjs/operators';
 import { CategoryService } from '../../categories/services/category.service';
 import { Category } from '../../categories/models/category.model';
 import { environment } from '../../../../environments/environment';
+import { Shop } from '../../shops/models/shop.model';
+import { ShopService } from '../../shops/services/shop.service';
 
 @Component({
   standalone: true,
@@ -44,6 +46,7 @@ export class ProductListComponent implements OnInit {
   productForm!: FormGroup;
   loading = false;
   categories: Category[] = [];
+  shops: Shop[] = [];
   selectedFile!: File;
   imagePreview: string | ArrayBuffer | null = null;
   isEditMode = false;
@@ -52,6 +55,7 @@ export class ProductListComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private categoryService: CategoryService, 
+    private shopService: ShopService, 
     private fb: FormBuilder,
     private cd: ChangeDetectorRef  
   ) {}
@@ -59,6 +63,7 @@ export class ProductListComponent implements OnInit {
   ngOnInit(): void {
     this.loadProducts();
     this.loadCategories();
+    this.loadShops();
     this.initForm();
   }
 
@@ -91,6 +96,15 @@ export class ProductListComponent implements OnInit {
     this.categoryService.getAll().subscribe({
       next: (data) => {
         this.categories = data;
+        this.cd.detectChanges();
+      }
+    });
+  }
+
+   loadShops(): void {
+    this.shopService.getAll().subscribe({
+      next: (data) => {
+        this.shops = data;
         this.cd.detectChanges();
       }
     });

@@ -248,6 +248,24 @@
           </select>
         </div>
 
+         <!-- Boutique -->
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">
+            <i class="cil-tags me-2 text-primary"></i>
+            Boutique
+          </label>
+          <select
+            cSelect
+            class="form-select shadow-sm"
+            formControlName="category_id">
+            <option value="" disabled>Choisir une boutique</option>
+            <option *ngFor="let shop of shops"
+                    [value]="shop._id">
+              {{ shop.name }}
+            </option>
+          </select>
+        </div>
+
         <!-- Image -->
         <div class="col-md-6">
           <label class="form-label fw-semibold">
