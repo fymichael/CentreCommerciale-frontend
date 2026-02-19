@@ -38,4 +38,8 @@ export class ProductService {
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  getProductsByShop(shopId: string): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.apiUrl}?shopId=${shopId}`);
+  }
 }
