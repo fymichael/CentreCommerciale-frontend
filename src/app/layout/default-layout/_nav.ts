@@ -25,6 +25,16 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-store' }
   },
   {
+    name: 'Categories',
+    url: '/category-managment',
+    iconComponent: { name: 'cil-store' }
+  },
+  {
+    name: 'Produits',
+    url: '/product-managment',
+    iconComponent: { name: 'cil-store' }
+  },
+  {
     title: true,
     name: 'Espace Client'
   },

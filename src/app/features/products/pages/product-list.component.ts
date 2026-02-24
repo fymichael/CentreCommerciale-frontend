@@ -1,8 +1,7 @@
-import { ColComponent, FormControlDirective, FormDirective, FormLabelDirective} from '@coreui/angular';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Product } from '../../../features/products/models/product.model';
-import { ProductService } from '../../../features/products/services/product.service';
+import { Product } from '../models/product.model';
+import { ProductService } from '../services/product.service';
 import { 
   CardModule, 
   GridModule, 
@@ -16,19 +15,32 @@ import { IconModule } from '@coreui/icons-angular';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ChangeDetectorRef, TrackByFunction } from '@angular/core';
 import { finalize } from 'rxjs/operators';
-import { CategoryService } from '../../../features/categories/services/category.service';
-import { Category } from '../../../features/categories/models/category.model';
+import { CategoryService } from '../../categories/services/category.service';
+import { Category } from '../../categories/models/category.model';
 import { environment } from '../../../../environments/environment';
-import { Shop } from '../../../features/shops/models/shop.model';
-import { ShopService } from '../../../features/shops/services/shop.service';
+import { Shop } from '../../shops/models/shop.model';
+import { ShopService } from '../../shops/services/shop.service';
 
 @Component({
-  selector: 'app-shop-product',
-  imports: [CommonModule, ModalModule, ReactiveFormsModule, IconModule, TableModule, AvatarModule, BadgeModule, ButtonModule, CardModule, ColComponent, FormControlDirective, FormDirective, FormLabelDirective],
-  templateUrl: './shop-product.component.html',
-  styleUrl: './shop-product.component.scss',
+  standalone: true,
+  selector: 'app-product-list',
+  templateUrl: './product-list.component.html',
+  
+  imports: [
+    CardModule, 
+    GridModule, 
+    TableModule, 
+    AvatarModule, 
+    IconModule, 
+    ButtonModule,
+    BadgeModule,
+    CommonModule,
+    ReactiveFormsModule,
+    ModalModule
+  ],
 })
-export class ShopProductComponent {
+export class ProductListComponent implements OnInit {
+
   products: Product[] = [];
   addModalVisible = false;
   productForm!: FormGroup;
@@ -48,24 +60,11 @@ export class ShopProductComponent {
     private cd: ChangeDetectorRef  
   ) {}
 
-  categoryConfigs: any = {
-    '6996124cbaa4dd1a9f78da90': { storage: 'Capacité de stockage RAM/ROM (ex: 6/256Gb-8/512Gb)' },
-    '6996124cbaa4dd1a9f78da91': { storage: 'Tailles disponibles (ex: S-M-L-XL)' },
-    '699dfaa493e4c2b2087e532f': { storage: 'Formats disponibles (ex: 15*15-30*30)' },
-    '699dfc06541deae87c6fa3b0': { storage: 'Dimensions disponibles (ex: 150*150-300*300)' }
-  };
-
-  currentConfig: any = null;
-
   ngOnInit(): void {
     this.loadProducts();
     this.loadCategories();
     this.loadShops();
     this.initForm();
-
-    this.productForm.get('category_id')?.valueChanges.subscribe(categoryId => {
-      this.currentConfig = this.categoryConfigs[categoryId] || null;
-    });
   }
 
   initForm(): void {
@@ -226,5 +225,4 @@ export class ShopProductComponent {
   trackById: TrackByFunction<Product> = (index, item) => {
     return item._id;
   };
-
 }
