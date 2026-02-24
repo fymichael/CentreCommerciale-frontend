@@ -103,7 +103,7 @@
       <ng-container *ngIf="currentConfig">
         <c-col md="6">
           <label cLabel for="color" class="fw-semibold">
-            {{ currentConfig.color }}
+            Couleur
           </label>
           <input cFormControl id="color" type="color" formControlName="color_code" />
         </c-col>
@@ -113,6 +113,24 @@
             {{ currentConfig.storage }}
           </label>
           <input cFormControl id="stockage" type="text" formControlName="storage_variants" placeholder="Séparez par des tirets (-)" />
+        </c-col>
+
+        <c-col md="6">
+          <label cLabel for="stockage" class="fw-semibold">
+            Matiere
+          </label>
+          <input cFormControl id="stockage" type="text" formControlName="storage_variants" placeholder="Séparez par des tirets (-)" />
+        </c-col>
+
+        <c-col md="6">
+          <label cLabel for="stockage" class="fw-semibold">
+            Qualiter
+          </label>
+          <select cSelect class="form-select shadow-sm">
+            <option value="" disabled>Choisissez une qualiter</option>
+            <option value="Authentique"> Authentique </option>
+            <option value="Reconditionne"> Reconditionne </option>
+          </select>
         </c-col>
 
       </ng-container>

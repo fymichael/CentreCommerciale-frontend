@@ -49,9 +49,10 @@ export class ShopProductComponent {
   ) {}
 
   categoryConfigs: any = {
-    '6996124cbaa4dd1a9f78da90': { color: 'Couleur du châssis', storage: 'Capacité de stockage (ex: 256Go-512Go)' },
-    '6996124cbaa4dd1a9f78da91': { color: 'Couleur du vêtement', storage: 'Tailles disponibles (ex: S-M-L-XL)' },
-    'FOOD_ID': { color: 'Teinte visuelle', storage: 'Formats disponibles (ex: 250ml-500ml-1L)' }
+    '6996124cbaa4dd1a9f78da90': { storage: 'Capacité de stockage RAM/ROM (ex: 6/256Gb-8/512Gb)' },
+    '6996124cbaa4dd1a9f78da91': { storage: 'Tailles disponibles (ex: S-M-L-XL)' },
+    '699dfaa493e4c2b2087e532f': { storage: 'Formats disponibles (ex: 15*15-30*30)' },
+    '699dfc06541deae87c6fa3b0': { storage: 'Dimensions disponibles (ex: 150*150-300*300)' }
   };
 
   currentConfig: any = null;
