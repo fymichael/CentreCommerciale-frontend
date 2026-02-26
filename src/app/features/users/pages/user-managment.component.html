@@ -1,0 +1,434 @@
+<div class="p-4 bg-light min-vh-100">
+    <!-- User list (Start) -->
+    <c-row>
+        <c-col xs>
+            <c-card class="mb-4 border-0 shadow-sm">
+                <c-card-body class="p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-bold text-dark mb-0">
+                            Liste des utilisateurs
+                        </h3>
+                        <div class="d-flex align-items-center gap-2">
+                            <button
+                                cButton
+                                color="secondary"
+                                variant="outline"
+                                size="sm"
+                                (click)="filtersVisible = true"
+                                title="Filtrer les utilisateurs"
+                            >
+                            <svg cIcon name="cilFilter" class="me-2"></svg>
+                                Filtrer
+                            </button>
+
+                            <button
+                                cButton
+                                color="primary"
+                                size="sm"
+                                (click)="openAddModal()"
+                            >
+                            <svg cIcon name="cilPlus" class="me-2"></svg>
+                                Nouveau utilisateur
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <app-filter-sidebar 
+                        [(visible)]="filtersVisible"
+                        [fields]="userFilterFields"
+                        title="Filtrer les utilisateurs"
+                        (filterApplied)="onFilterApplied($event)"
+                        (filterReset)="onFilterApplied({})">
+                    </app-filter-sidebar>
+
+                    <table
+                        [hover]="true"
+                        [responsive]="true"
+                        [striped]="true"
+                        align="middle"
+                        cTable
+                        class="mb-0 border"
+                    >
+                        <thead class="text-nowrap">
+                            <tr>
+                                <th class="bg-body-tertiary">Username</th>
+                                <th class="bg-body-tertiary text-center">Email</th>
+                                <th class="bg-body-tertiary">Téléphone</th>
+                                <th class="bg-body-tertiary">Rôle</th>
+                                <th class="bg-body-tertiary">Status</th>
+                                <th class="bg-body-tertiary text-center">Date création</th>
+                                <th class="bg-body-tertiary text-center">Date modification</th>
+                                <th class="bg-body-tertiary text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (user of users; track user._id) {
+                                <tr>
+                                    <td>
+                                        <div class="fw-semibold">{{ user.username }}</div>
+                                    </td>
+                                    <td class="text-center">
+                                        {{ user.email }}
+                                    </td>
+                                    <td>
+                                        <span class="font-monospace">{{ user.phone_number }}</span>
+                                    </td>
+                                     <td class="text-center">
+                                        {{ user.role_id.name }}
+                                    </td>
+                                   
+                                    <td class="text-center">
+                                        <c-badge [color]="getStateConfig(user.state).color">
+                                            {{ getStateConfig(user.state).label }}
+                                        </c-badge>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="small text-body-secondary">Créer le</div>
+                                        <div class="fw-semibold">{{ user.createdAt | date:'dd/MM/yyyy' }}</div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="small text-body-secondary">Modifier le</div>
+                                        <div class="fw-semibold">{{ user.updatedAt | date:'dd/MM/yyyy' }}</div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="d-flex justify-content-center gap-2">
+                                            <button
+                                                *ngIf="user.state !== 5"
+                                                cButton
+                                                color="success"
+                                                variant="outline"
+                                                size="sm"
+                                                (click)="activateUser(user)"
+                                                title="Activer"
+                                            >
+                                                <svg cIcon name="cilCheck"></svg>
+                                            </button>
+
+                                            <button
+                                                *ngIf="user.state !== 0"
+                                                cButton
+                                                color="danger"
+                                                variant="outline"
+                                                size="sm"
+                                                (click)="deactivateUser(user)"
+                                                title="Désactiver"
+                                            >
+                                                <svg cIcon name="cilCheck"></svg>
+                                            </button>
+                                            <button
+                                                cButton
+                                                color="info"
+                                                variant="outline"
+                                                size="sm"
+                                                (click)="openEditModal(user)"
+                                                title="Modifier"
+                                            >
+                                                <svg cIcon name="cilPencil"></svg>
+                                            </button>
+
+                                            <button
+                                                cButton
+                                                color="danger"
+                                                variant="outline"
+                                                size="sm"
+                                                (click)="deleteUser(user._id)"
+                                                title="Supprimer"
+                                            >
+                                                <svg cIcon name="cilTrash"></svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div>
+                            Total : {{ totalItems }}
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button 
+                            cButton 
+                            size="sm"
+                            [disabled]="currentPage === 1"
+                            (click)="currentPage = currentPage - 1; loadUsers()">
+                            Précédent
+                            </button>
+
+                            <span class="align-self-center">
+                            Page {{ currentPage }} / {{ totalPages }}
+                            </span>
+
+                            <button 
+                            cButton 
+                            size="sm"
+                            [disabled]="currentPage === totalPages"
+                            (click)="currentPage = currentPage + 1; loadUsers()">
+                            Suivant
+                            </button>
+                        </div>
+                    </div>
+                </c-card-body>
+            </c-card>
+        </c-col>
+    <!-- User list (End) -->
+    </c-row>
+</div>
+<!-- Modals confirming rejection user admission (Start) -->
+<c-modal #rejectUserModal backdrop="static" id="rejectUserModal">
+    <c-modal-header>
+        <h5 cModalTitle>Confirmation de rejet d'admission</h5>
+        <button [cModalToggle]="rejectUserModal.id" cButtonClose></button>
+    </c-modal-header>
+    
+    <c-modal-body>
+        Voulez-vous rejeter l'admission de l'utilisateur <strong> Linda </strong> ?
+    </c-modal-body>
+    
+    <c-modal-footer>
+        <button [cModalToggle]="rejectUserModal.id" cButton color="secondary">
+            Annuler
+        </button>
+        <button cButton color="primary">
+            Confirmer
+        </button>
+    </c-modal-footer>
+</c-modal>
+<!-- Modals confirming rejection user admission (End) -->
+ 
+<c-modal
+    [visible]="addModalVisible"
+    (visibleChange)="addModalVisible = $event"
+    size="lg"
+>
+    <c-modal-header>
+        <h5 class="modal-title">Ajouter un utilisateur</h5>
+        <button cButtonClose (click)="closeAddModal()"></button>
+    </c-modal-header>
+
+    <c-modal-body>
+        <form [formGroup]="userForm" cForm>
+            <div class="form-section mb-4">
+                <p class="text-uppercase text-primary fw-bold small border-bottom pb-2 mb-3">1. Informations Personnelles</p>
+                <c-row>
+                    <c-col md="6" class="mb-3">
+                        <label class="form-label-custom" for="last_name">Nom</label>
+                        <c-input-group class="custom-input-group">
+                        <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilUser" size="sm"></svg></span>
+                        <input 
+                            cFormControl 
+                            type="text"
+                            formControlName="last_name"
+                            id="last_name" 
+                            placeholder="DUPONT" 
+                            class="border-start-0 ps-0" 
+                        />
+                        </c-input-group>
+                        <div *ngIf="getControl('last_name')?.touched && getControl('last_name')?.invalid" class="text-danger small mt-1">
+                        <span *ngIf="getControl('last_name')?.errors?.['required']">Le nom est requis.</span>
+                        <span *ngIf="getControl('last_name')?.errors?.['last_name']">Nom invalide.</span>
+                        </div>
+                    </c-col>
+                    
+                    <c-col md="6" class="mb-3">
+                        <label class="form-label-custom" for="first_name">Prénom</label>
+                        <c-input-group class="custom-input-group">
+                        <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilUser" size="sm"></svg></span>
+                        <input 
+                            cFormControl 
+                            type="text"
+                            formControlName="first_name"
+                            id="first_name"
+                            placeholder="Jean" 
+                            class="border-start-0 ps-0" 
+                        />
+                        </c-input-group>
+                        <div *ngIf="getControl('first_name')?.touched && getControl('first_name')?.invalid" class="text-danger small mt-1">
+                        <span *ngIf="getControl('first_name')?.errors?.['required']">Le prénom est requis.</span>
+                        <span *ngIf="getControl('first_name')?.errors?.['first_name']">Prénom invalide.</span>
+                        </div>
+                    </c-col>
+                </c-row>
+
+                <c-row>
+                    <c-col md="6" class="mb-3">
+                        <label class="form-label-custom" for="birthday">Date de naissance</label>
+                        <c-input-group class="custom-input-group">
+                            <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilCalendar" size="sm"></svg></span>
+                            <input 
+                                cFormControl 
+                                id="birthday" 
+                                type="date" 
+                                formControlName="birthday"
+                                class="border-start-0 ps-0" 
+                            />
+                        </c-input-group>
+                        <div *ngIf="getControl('birthday')?.touched && getControl('birthday')?.invalid" class="text-danger small mt-1">
+                            <span *ngIf="getControl('birthday')?.errors?.['required']">La date de naissance est requis.</span>
+                            <span *ngIf="getControl('birthday')?.errors?.['birthday']">Date de naissance invalide.</span>
+                        </div>
+                    </c-col>
+                    <c-col md="6" class="mb-3">
+                        <label class="form-label-custom" for="birthday">Rôle</label>
+                        <c-input-group class="custom-input-group">
+                            <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilCalendar" size="sm"></svg></span>
+                            <select
+                                cSelect
+                                class="form-select shadow-sm"
+                                formControlName="role_id">
+                                <option value="" disabled>Choisir un rôle</option>
+                                <option *ngFor="let role of roles"
+                                        [value]="role._id">
+                                {{ role.name }}
+                                </option>
+                            </select>
+                        </c-input-group>
+                        <div *ngIf="getControl('role_id')?.touched && getControl('role_id')?.invalid" class="text-danger small mt-1">
+                            <span *ngIf="getControl('role_id')?.errors?.['required']">Le rôle est requis.</span>
+                            <span *ngIf="getControl('role_id')?.errors?.['role_id']">Rôle invalide.</span>
+                        </div>
+                    </c-col>
+                </c-row>
+            </div>
+
+            <div class="form-section mb-4">
+                <p class="text-uppercase text-primary fw-bold small border-bottom pb-2 mb-3">2. Contact & Localisation</p>
+                <div class="mb-3">
+                    <label class="form-label-custom" for="address">Adresse de résidence</label>
+                    <c-input-group class="custom-input-group">
+                    <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilHome" size="sm"></svg></span>
+                        <input 
+                        cFormControl 
+                        id="address" 
+                        type="text" 
+                        formControlName="address"
+                        placeholder="Ex: Lot IVG 123 Antananarivo" 
+                        class="border-start-0 ps-0" 
+                        />
+                    </c-input-group>
+                </div>
+                <div *ngIf="getControl('address')?.touched && getControl('address')?.invalid" class="text-danger small mt-1">
+                    <span *ngIf="getControl('address')?.errors?.['required']">L'addresse est requis.</span>
+                    <span *ngIf="getControl('address')?.errors?.['address']">Addresse invalide.</span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label-custom" for="phone_number">Téléphone</label>
+                    <c-input-group class="custom-input-group">
+                        <span cInputGroupText class="bg-white border-end-0">+261</span>
+                        <input 
+                        cFormControl 
+                        id="phone_number" 
+                        type="text"
+                        formControlName="phone_number"
+                        placeholder="034 00 000 00" 
+                        class="border-start-0 ps-0" 
+                        />
+                    </c-input-group>
+                </div>
+                    <div *ngIf="getControl('phone_number')?.touched && getControl('phone_number')?.invalid" class="text-danger small mt-1">
+                    <span *ngIf="getControl('phone_number')?.errors?.['required']">Le numero de telephone est requis.</span>
+                    <span *ngIf="getControl('phone_number')?.errors?.['phone_number']">Numero de telephone invalide.</span>
+                    </div>
+            </div>
+
+            <div class="form-section mb-4">
+                <p class="text-uppercase text-primary fw-bold small border-bottom pb-2 mb-3">3. Identifiants</p>
+                <div class="mb-3">
+                    <label class="form-label-custom" for="email">Email</label>
+                    <c-input-group class="custom-input-group">
+                        <span cInputGroupText class="bg-white border-end-0">@</span>
+                        <input 
+                        cFormControl 
+                        id="email" 
+                        type="email" 
+                        formControlName="email"
+                        placeholder="votre@email.com" 
+                        class="border-start-0 ps-0" 
+                        />
+                    </c-input-group>
+                </div>
+                <div *ngIf="getControl('email')?.touched && getControl('email')?.invalid" class="text-danger small mt-1">
+                    <span *ngIf="getControl('email')?.errors?.['required']">L'email est requis.</span>
+                    <span *ngIf="getControl('email')?.errors?.['email']">Email invalide.</span>
+                </div>
+                    
+                <div class="mb-3">
+                    <label class="form-label-custom" for="email">Username</label>
+                    <c-input-group class="custom-input-group">
+                        <span cInputGroupText class="bg-white border-end-0">@</span>
+                        <input 
+                        cFormControl 
+                        id="email" 
+                        type="username" 
+                        formControlName="username"
+                        placeholder="votre@email.com" 
+                        class="border-start-0 ps-0" 
+                        />
+                    </c-input-group>
+                </div>
+                <div *ngIf="getControl('username')?.touched && getControl('username')?.invalid" class="text-danger small mt-1">
+                    <span *ngIf="getControl('username')?.errors?.['required']">Username est requis.</span>
+                    <span *ngIf="getControl('username')?.errors?.['username']">Username invalide.</span>
+                </div>
+                <c-row>
+                    <c-col md="6" class="mb-3">
+                        <label class="form-label-custom" for="password">Mot de passe</label>
+                        <c-input-group class="custom-input-group">
+                        <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilLockLocked" size="sm"></svg></span>
+                        <input 
+                            cFormControl 
+                            id="password" 
+                            type="password" 
+                            formControlName="password"
+                            placeholder="••••••••" 
+                            class="border-start-0 ps-0" 
+                        />
+                        </c-input-group>
+                    </c-col>
+                    <div *ngIf="getControl('password')?.touched && getControl('password')?.invalid" class="text-danger small mt-1">
+                        <span *ngIf="getControl('password')?.errors?.['required']">Le mot de passe est requis.</span>
+                        <span *ngIf="getControl('password')?.errors?.['password']">Mot de passe invalide.</span>
+                    </div>
+                    <c-col md="6" class="mb-3">
+                        <label class="form-label-custom" for="confirmPassword">Confirmer</label>
+                        <c-input-group class="custom-input-group">
+                        <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilShieldCheck" size="sm"></svg></span>
+                        <input 
+                            cFormControl 
+                            id="confirmPassword" 
+                            type="password" 
+                            formControlName="confirmPassword"
+                            placeholder="••••••••" 
+                            class="border-start-0 ps-0" 
+                        />
+                        </c-input-group>
+                    </c-col>
+                                        
+                    <div *ngIf="getControl('confirmPassword')?.touched && getControl('confirmPassword')?.errors?.['mismatch']" class="text-danger small mt-1">
+                        Les mots de passe ne correspondent pas.
+                    </div>
+                </c-row>
+            </div>
+        </form>
+    </c-modal-body>
+
+    <c-modal-footer>
+        <button cButton color="secondary" (click)="closeAddModal()">
+            Annuler
+        </button>
+        <button
+            cButton
+            color="primary"
+            (click)="saveUser()"
+            [disabled]="userForm.invalid"
+        >
+            {{ isEditMode ? 'Mettre à jour' : 'Enregistrer' }}
+        </button>
+
+        <!-- Affichage erreurs globales -->
+        <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+            {{ errorMessage }}
+        </div>
+    </c-modal-footer>
+</c-modal>
