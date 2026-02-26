@@ -5,6 +5,7 @@ import { NgScrollbar } from 'ngx-scrollbar';
 import { IconDirective } from '@coreui/icons-angular';
 import {
   ContainerComponent,
+  INavData,
   ShadowOnScrollDirective,
   SidebarBrandComponent,
   SidebarComponent,
@@ -18,6 +19,7 @@ import {
 import { DefaultFooterComponent, DefaultHeaderComponent } from './';
 import { navItems } from './_nav';
 import { Title } from '@angular/platform-browser';
+import { AuthService } from '../../core/services/auth.service';
 
 function isOverflown(element: HTMLElement) {
   return (
@@ -47,9 +49,31 @@ function isOverflown(element: HTMLElement) {
     ShadowOnScrollDirective
   ]
 })
+
 export class DefaultLayoutComponent {
-  constructor(private titleService: Title) {
+
+  public navItems: INavData[] = [];
+
+  constructor(
+    private titleService: Title,
+    private authService: AuthService
+  ) {
     this.titleService.setTitle('M1P13mean-Fy-Chalman - Centre Commercial');
+
+    this.filterMenuByRole();
   }
-  public navItems = [...navItems];
+    
+  private filterMenuByRole() {
+    const role = this.authService.getUserRole();
+
+    if (!role) {
+      this.navItems = [];
+      return;
+    }
+
+    this.navItems = navItems.filter(item => {
+      if (!item.roles) return true;
+      return item.roles.includes(role);
+    });
+  }
 }

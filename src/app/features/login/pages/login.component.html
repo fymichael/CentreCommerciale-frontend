@@ -14,13 +14,22 @@
               <p class="text-muted small text-center">Entrez vos identifiants pour accéder à votre espace</p>
             </div>
 
-            <form cForm>
+            <form [formGroup]="form" (ngSubmit)="login()" cForm>
               <div class="mb-3">
-                <label class="form-label-custom" for="email">Adresse Email</label>
+                <label class="form-label-custom" for="email">Adresse Email ou username</label>
                 <c-input-group class="custom-input-group">
                   <span cInputGroupText class="bg-white border-end-0">
                     <svg cIcon name="cilEnvelopeOpen" size="sm"></svg> </span>
-                  <input autoComplete="email" cFormControl placeholder="nom@exemple.com" id="email" class="border-start-0 ps-0" />
+                  <input   
+                    type="text"
+                    formControlName="identifier"
+                    class="form-control mb-3"
+                    cFormControl     
+                    placeholder="Email ou username"
+                    id="email"
+                    autocomplete="username"
+                    class="border-start-0 ps-0"
+                  />
                 </c-input-group>
               </div>
 
@@ -32,13 +41,24 @@
                   <span cInputGroupText class="bg-white border-end-0">
                     <svg cIcon name="cilLockLocked" size="sm"></svg>
                   </span>
-                  <input autoComplete="current-password" cFormControl type="password" id="password" class="border-start-0 ps-0" placeholder="••••••••" />
+                  <input 
+                    autoComplete="current-password" 
+                    cFormControl type="password" 
+                    id="password" 
+                    class="border-start-0 ps-0" 
+                    placeholder="Entrer votre mot de passe"
+                    formControlName="password"  
+                  />
                 </c-input-group>
               </div>
 
-              <button cButton class="btn-login w-100 py-2 fw-bold" color="primary" [routerLink]="['/dashboard']">
-                Se connecter
+              <button cButton class="btn-login w-100 py-2 fw-bold" color="primary" type="submit" [disabled]="loading">
+                {{ loading ? 'Connexion...' : 'Se connecter' }}
               </button>
+
+              <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+                {{ errorMessage }}
+              </div>
 
               <div class="text-center mt-5">
                 <span class="text-muted small">Vous n'avez pas de compte ?</span>

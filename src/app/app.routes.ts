@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './core/guards/auth.guard';
+import { LogoutComponent } from './component/logout.component';
 
 export const routes: Routes = [
   {
@@ -15,74 +17,65 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
+        canActivate: [AuthGuard],
+        data: { role: 'Admin mall' },
         loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
       }, {
         path: 'shop-profile',
+        canActivate: [AuthGuard],
         loadComponent: () => import('./views/pages/shop-profile/shop-profile.component').then(m => m.ShopProfileComponent),
         data: {
-          title: 'Shop Profile Page'
+          title: 'Shop Profile Page',
+          role: 'Admin shop'
         }
       },
       {
-        path: 'forms',
-        loadChildren: () => import('./views/forms/routes').then((m) => m.routes)
+        path: 'user-managment',
+        canActivate: [AuthGuard],
+        loadComponent: () => import('./features/users/pages/user-managment.component').then(m => m.UserManagmentComponent),
+        data: {
+          title: 'User Managment Page',
+          role: 'Admin mall'
+        }
       },
       {
-        path: 'icons',
-        loadChildren: () => import('./views/icons/routes').then((m) => m.routes)
+        path: 'shop-managment',
+        canActivate: [AuthGuard],
+        loadComponent: () => import('./features/shops/pages/shop.component').then(m => m.ShopComponent),
+        data: {
+          title: 'Shop Managment Page',
+          role: 'Admin mall'
+        }
       },
       {
-        path: 'notifications',
-        loadChildren: () => import('./views/notifications/routes').then((m) => m.routes)
+        path: 'category-managment',
+        canActivate: [AuthGuard],
+        loadComponent: () => import('./features/categories/pages/category-list.component').then(m => m.CategoryListComponent),
+        data: {
+          title: 'Category Managment Page',
+          role: 'Admin mall'
+        }
       },
       {
-        path: 'widgets',
-        loadChildren: () => import('./views/widgets/routes').then((m) => m.routes)
+        path: 'product-managment',
+        canActivate: [AuthGuard],
+        loadComponent: () => import('./features/products/pages/product-list.component').then(m => m.ProductListComponent),
+        data: {
+          title: 'Product Managment Page',
+          role: 'Admin mall'
+        }
       },
       {
-        path: 'charts',
-        loadChildren: () => import('./views/charts/routes').then((m) => m.routes)
-      },
-      {
-        path: 'pages',
-        loadChildren: () => import('./views/pages/routes').then((m) => m.routes)
-      },
-        {
-          path: 'user-managment',
-          loadComponent: () => import('./views/pages/user-managment/user-managment.component').then(m => m.UserManagmentComponent),
-          data: {
-            title: 'User Managment Page'
-          }
-        },
-        {
-          path: 'shop-managment',
-          loadComponent: () => import('./features/shops/pages/shop.component').then(m => m.ShopComponent),
-          data: {
-            title: 'Shop Managment Page'
-          }
-        },
-        {
-          path: 'category-managment',
-          loadComponent: () => import('./features/categories/pages/category-list.component').then(m => m.CategoryListComponent),
-          data: {
-            title: 'Category Managment Page'
-          }
-        },
-        {
-          path: 'product-managment',
-          loadComponent: () => import('./features/products/pages/product-list.component').then(m => m.ProductListComponent),
-          data: {
-            title: 'Product Managment Page'
-          }
-        },
-        {
         path: 'subscription-shop',
         loadComponent: () => import('./views/pages/subscription-shop/subscription-shop.component').then(m => m.SubscriptionShopComponent),
         data: {
           title: 'Subscription Shop Page'
         }
+      },
+      {
+        path: 'log-out',
+        component: LogoutComponent
       }
-        
     ]
   },
   {
@@ -101,14 +94,14 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    loadComponent: () => import('./views/pages/login/login.component').then(m => m.LoginComponent),
+    loadComponent: () => import('./features/login/pages/login.component').then(m => m.LoginComponent),
     data: {
       title: 'Login Page'
     }
   },
   {
     path: 'register',
-    loadComponent: () => import('./views/pages/register/register.component').then(m => m.RegisterComponent),
+    loadComponent: () => import('./features/registers/pages/register.component').then(m => m.RegisterComponent),
     data: {
       title: 'Register Page'
     }
