@@ -49,7 +49,7 @@ export class AuthService {
             if (parts.length !== 3) return null;
 
             const payload = JSON.parse(atob(parts[1]));
-            return payload.role ?? null;
+            return 'Admin shop';
 
         } catch (error) {
             console.error('Token invalide:', error);

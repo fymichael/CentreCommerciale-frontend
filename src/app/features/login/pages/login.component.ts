@@ -109,13 +109,13 @@ export class LoginComponent {
     }
 
     if (role === 'Admin shop') {
-      console.log("tafiditra", role);
       this.router.navigate(['/shop-profile']);
     } 
     else if (role === 'Admin mall') {
       this.router.navigate(['/dashboard']);
     } 
     else {
+      console.log("tafiditra", role);
       this.router.navigate(['/dashboard']);
     }
   }

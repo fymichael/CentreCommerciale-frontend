@@ -12,11 +12,15 @@ import { ShopProductComponent } from '../../components/shop-product/shop-product
 import { ShopOrderComponent } from '../../components/shop-order/shop-order.component';
 import { StockManagmentComponent } from '../../components/stock-managment/stock-managment.component';
 import { ShopDashboardComponent } from '../../components/shop-dashboard/shop-dashboard.component';
+import { ShopService } from '../../../features/shops/services/shop.service';
+import { Shop } from '../../../features/shops/models/shop.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-shop-profile',
   standalone: true,
   imports: [
+    FormsModule,
     CommonModule,
     CardModule,
     RowComponent,
@@ -43,24 +47,18 @@ import { ShopDashboardComponent } from '../../components/shop-dashboard/shop-das
 })
 export class ShopProfileComponent implements OnInit {
 
-  shopProfile = {
-    name: 'Tech',
-    slogan: "L'innovation à portée de main",
-    avatar: 'https://via.placeholder.com/150/FF6347/FFFFFF?text=T',
-    ownerName: 'Dupont Jean',
-    nif: '1234567890',
-    stat: '0987654321',
-    contact: '+261 32 12 345 67',
-    email: 'contact.tech@example.com',
-    shopType: 'Électronique',
-    subscriptionType: 'Premium',
-    subscriptionStatus: 'actif'
-  };
+  constructor(private shopService: ShopService) {}
+
+
+
+  shopProfile: Shop | null = null;
+  
 
   // Si vous utilisez les Reactive Forms, vous auriez un FormGroup ici
   // shopForm!: FormGroup;
 
   ngOnInit(): void {
+    this.loadShopProfile();
     // Si vous utilisez Reactive Forms
     // this.shopForm = this.fb.group({
     //   ownerName: [this.shopProfile.ownerName],
@@ -69,13 +67,25 @@ export class ShopProfileComponent implements OnInit {
     // });
   }
 
+loadShopProfile() { 
+    // Remplace l'ID par celui de la boutique connectée si besoin
+    this.shopService.getById('69a0ae5d5413ebd0a41e49f9').subscribe({
+      next: (shop) => {
+        this.shopProfile = shop;
+        console.log('Profil chargé :', this.shopProfile);
+        //console.log('Profil chargé :', this.shopProfile);
+      },
+      error: (err) => console.error('Erreur de chargement', err)
+    });
+  }
+
   cilBasket = cilBasket;
   cilSpeedometer = cilSpeedometer;
   cilTruck = cilTruck;
 
-    handleChange($event: string | number | undefined) {
-      console.log('handleChange', $event);
-    }
+  handleChange($event: string | number | undefined) {
+    console.log('handleChange', $event);
+  }
 
   modifierAbonnement() {
     console.log("Rediriger vers la page de modification d'abonnement");

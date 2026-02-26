@@ -91,7 +91,7 @@ export class ShopComponent implements OnInit {
 
     openEditModal(shop: Shop): void {
         this.isEditMode = true;
-        this.selectedShopId = shop._id;
+        //this.selectedShopId = shop._id;
 
         this.shopForm.patchValue({
             name: shop.name,
@@ -142,6 +142,6 @@ export class ShopComponent implements OnInit {
     }
 
     trackById(index: number, item: Shop): string {
-        return item._id;
+        return item._id || `${index}`;
     }
 }
