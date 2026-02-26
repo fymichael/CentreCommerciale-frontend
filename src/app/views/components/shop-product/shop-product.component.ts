@@ -5,7 +5,6 @@ import { Product } from '../../../features/products/models/product.model';
 import { ProductService } from '../../../features/products/services/product.service';
 import { 
   CardModule, 
-  GridModule, 
   TableModule, 
   AvatarModule, 
   ButtonModule ,
