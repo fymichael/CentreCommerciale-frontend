@@ -6,7 +6,7 @@ import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ShopService {
-  private apiUrl = `https://centre-commerciale-backend.vercel.app/shops`;
+  private apiUrl = `${environment.prodUrl}/shops`;
 
   constructor(private http: HttpClient) {}
 

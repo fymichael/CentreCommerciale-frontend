@@ -1,5 +1,7 @@
 <div class="container-xxl py-4 overflow-y-auto shadow-sm bg-light" style="height: calc(100vh - 200px); scrollbar-width: thin;" *ngIf="shopProfile">
-  
+  <div class="vh-100 d-flex justify-content-center align-items-center" *ngIf="isLoading">
+   <div class="spinner-border text-primary"></div>
+</div>
   <c-row class="g-4">
     <c-col lg="4">
       <c-card class="h-100 border-0 shadow-sm text-center">

@@ -33,11 +33,13 @@ export class ShopProductComponent {
   productForm!: FormGroup;
   loading = false;
   categories: Category[] = [];
-  shops: Shop[] = [];
+  shop: Shop | null = null;
   selectedFile!: File;
   imagePreview: string | ArrayBuffer | null = null;
   isEditMode = false;
   selectedProductId: string | null = null;
+  isLoading = false;
+  selectedColors: string[] = [];
 
   constructor(
     private productService: ProductService,
@@ -56,41 +58,104 @@ export class ShopProductComponent {
 
   currentConfig: any = null;
 
-  ngOnInit(): void {
-    this.loadProducts();
-    this.loadCategories();
-    this.loadShops();
-    this.initForm();
+ngOnInit(): void {
+  const shopId = '69a0ae5d5413ebd0a41e49f9'; 
+  
+  this.isLoading = true;
+  this.loadProductsByIdShop(shopId);
+  this.loadCategories();
+  this.loadShopById();
+  this.initForm();
 
-    this.productForm.get('category_id')?.valueChanges.subscribe(categoryId => {
-      this.currentConfig = this.categoryConfigs[categoryId] || null;
-    });
+  this.productForm.get('category_id')?.valueChanges.subscribe(categoryId => {
+    this.currentConfig = this.categoryConfigs[categoryId] || null;
+  });
+  this.isLoading = false;
+}
+
+addColor(color: string) {
+  if (!this.selectedColors.includes(color)) {
+    this.selectedColors.push(color);
   }
+}
+
+removeColor(index: number) {
+  this.selectedColors.splice(index, 1);
+}
 
   initForm(): void {
-    this.productForm = this.fb.group({
-      code: ['', Validators.required],
-      name: ['', Validators.required],
-      unit_price: [0, [Validators.required, Validators.min(0)]],
-      discount_rate: [0, [Validators.min(0), Validators.max(100)]],
-      category_id: ['', Validators.required],
-      shop_id: [''],
-      state: [1],
-    });
+  this.productForm = this.fb.group({
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    description: ['', Validators.required],
+    unit_price: [0, [Validators.required, Validators.min(0)]],
+    discount_rate: [0, [Validators.min(0), Validators.max(100)]],
+    category_id: ['', Validators.required],
+    shop_id: '69a0ae5d5413ebd0a41e49f9',
+    variant: ['', Validators.required],
+    build_material: ['', Validators.required],
+    quality: ['Authentique', Validators.required],
+    state: 1,
+  });
+}
+
+saveProduct() {
+  if (this.productForm.invalid) {
+    alert("Veuillez remplir tous les champs obligatoires.");
+    return;
   }
 
-  loadProducts(): void {
-    this.loading = true;
-    this.productService.getAll()
-      .pipe(finalize(() => this.loading = false))
-      .subscribe({
-        next: data => {
-          this.products = [...data];
-            this.loading = false;
-            this.cd.detectChanges();
-          }
-        });
+  this.loading = true;
+  const formData = new FormData();
+  const formValues = this.productForm.value;
+
+  Object.keys(formValues).forEach(key => {
+    const value = formValues[key];
+
+    if (key === 'colors' || key === 'image') return;
+
+    if (value !== null && value !== undefined) {
+      formData.append(key, value);
+    }
+  });
+
+  formData.append('color', this.selectedColors.join('-'));
+  formData.append('shop_id', '69a0ae5d5413ebd0a41e49f9');
+
+  if (this.selectedFile) {
+    formData.append('image', this.selectedFile);
   }
+
+  const request = this.isEditMode && this.selectedProductId
+    ? this.productService.update(this.selectedProductId, formData)
+    : this.productService.create(formData);
+
+  request.pipe(finalize(() => this.loading = false)).subscribe({
+    next: () => this.afterSave(),
+    error: (err) => {
+      console.error('Erreur API:', err);
+      alert("Erreur lors de l'enregistrement");
+    }
+  });
+}
+
+loadProductsByIdShop(shopId: string): void {
+  this.loading = true;
+  
+  // Utilisation de ta fonction du service avec l'ID
+  this.productService.getByShopId(shopId)
+    .pipe(finalize(() => this.loading = false))
+    .subscribe({
+      next: (data) => {
+        this.products = [...data];
+        this.cd.detectChanges();
+      },
+      error: (err) => {
+        console.error('Erreur chargement produits boutique:', err);
+        this.products = []; // Vide la liste en cas d'erreur
+      }
+    });
+}
 
   loadCategories(): void {
     this.categoryService.getAll().subscribe({
@@ -101,10 +166,31 @@ export class ShopProductComponent {
     });
   }
 
-   loadShops(): void {
-    this.shopService.getAll().subscribe({
+  openAddModal(): void {
+    this.isEditMode = false;
+    this.productForm.reset({ unit_price: 0, discount_rate: 0, quality: 'Authentique' });
+    this.selectedColors = [];
+    this.imagePreview = null;
+    this.addModalVisible = true; // Déclenche l'affichage
+  }
+
+  openEditModal(product: Product): void {
+    this.isEditMode = true;
+    this.selectedProductId = product._id;
+    this.productForm.patchValue(product); // Remplit le formulaire
+    this.selectedColors = product.colors || [];
+    this.imagePreview = this.getImageUrl(product.image);
+    this.addModalVisible = true;
+  }
+
+  closeAddModal(): void {
+    this.addModalVisible = false;
+  }
+
+   loadShopById(): void {
+    this.shopService.getById('69a0ae5d5413ebd0a41e49f9').subscribe({
       next: (data) => {
-        this.shops = data;
+        this.shop = data;
         this.cd.detectChanges();
       }
     });
@@ -129,81 +215,20 @@ export class ShopProductComponent {
     this.productService.delete(id).subscribe({
       next: () => {
         this.products = this.products.filter(p => p._id !== id);
-        this.loadProducts();
+        this.loadProductsByIdShop('69a0ae5d5413ebd0a41e49f9'); // Reload products for the same shop
       }
     });
-  }
-
-
-  openAddModal(): void {
-    this.productForm.reset({
-      code: '',
-      name: '',
-      unit_price: 0,
-      discount_rate: 0,
-      category_id: '',
-      shop_id: '',
-      state: 1
-    });
-    this.imagePreview = this.getImageUrl(null);
-    this.addModalVisible = true;
-  }
-
-  openEditModal(product: Product): void {
-    this.isEditMode = true;
-    this.selectedProductId = product._id;
-
-    this.productForm.patchValue({
-      code: product.code,
-      name: product.name,
-      unit_price: product.unit_price,
-      discount_rate: product.discount_rate,
-      category_id: product.category_id?._id,
-      shop_id: null,
-      state: product.state
-    });
-
-    this.imagePreview = this.getImageUrl(product.image || null);
-    this.addModalVisible = true;
-  }
-
-  closeAddModal(): void {
-    this.addModalVisible = false;
-  }
-
-  saveProduct() {
-    if (this.productForm.invalid) return;
-
-    const formData = new FormData();
-
-    Object.keys(this.productForm.value).forEach(key => {
-      const value = this.productForm.value[key];
-      if (value !== null && value !== undefined) {
-        formData.append(key, value.toString());
-      }
-    });
-
-    if (this.selectedFile) {
-      formData.append('image', this.selectedFile);
-    }
-
-    if (this.isEditMode && this.selectedProductId) {
-      this.productService.update(this.selectedProductId, formData)
-        .subscribe(() => this.afterSave());
-    } else {
-      this.productService.create(formData)
-        .subscribe(() => this.afterSave());
-    }
   }
 
   afterSave(): void {
-    this.loadProducts();
+    this.loadProductsByIdShop('69a0ae5d5413ebd0a41e49f9');
     this.closeAddModal();
     this.productForm.reset();
     this.imagePreview = null;
     this.selectedFile = undefined as any;
     this.isEditMode = false;
     this.selectedProductId = null;
+    //window.location.reload();
   }
 
   getImageUrl(image: string | null): string {

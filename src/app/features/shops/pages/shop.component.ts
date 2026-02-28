@@ -128,12 +128,12 @@ export class ShopComponent implements OnInit {
         }
     }
 
-    deleteShop(id: string): void {
+    deleteShop(id: string | undefined): void {
         if (!confirm('Voulez-vous vraiment supprimer cette boutique ?')) return;
 
         this.loading = true;
 
-        this.shopService.delete(id)
+        this.shopService.delete(id!)
             .pipe(finalize(() => this.loading = false))
             .subscribe(() => {
                 this.shops = this.shops.filter(c => c._id !== id);

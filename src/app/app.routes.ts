@@ -38,15 +38,15 @@ export const routes: Routes = [
           role: 'Admin mall'
         }
       },
-      // {
-      //   path: 'shop-managment',
-      //   canActivate: [AuthGuard],
-      //   loadComponent: () => import('./features/shops/pages/shop.component').then(m => m.ShopComponent),
-      //   data: {
-      //     title: 'Shop Managment Page',
-      //     role: 'Admin mall'
-      //   }
-      // },
+      {
+        path: 'shop-managment',
+        canActivate: [AuthGuard],
+        loadComponent: () => import('./features/shops/pages/shop.component').then(m => m.ShopComponent),
+        data: {
+          title: 'Shop Managment Page',
+          role: 'Admin mall'
+        }
+      },
       {
         path: 'category-managment',
         canActivate: [AuthGuard],

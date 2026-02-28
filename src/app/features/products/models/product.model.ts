@@ -10,6 +10,10 @@ export interface Product {
   discount_rate: number;
   category_id: Category;
   shop_id: string;
+  colors: string[];
+  variants: string[];
+  quality: string;
+  matiere: string;
   state: number;
   image: string;
 }

@@ -15,6 +15,7 @@ import { ShopDashboardComponent } from '../../components/shop-dashboard/shop-das
 import { ShopService } from '../../../features/shops/services/shop.service';
 import { Shop } from '../../../features/shops/models/shop.model';
 import { FormsModule } from '@angular/forms';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-shop-profile',
@@ -46,36 +47,30 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './shop-profile.component.scss'
 })
 export class ShopProfileComponent implements OnInit {
+  isLoading = false;
 
-  constructor(private shopService: ShopService) {}
-
-
+  constructor(private shopService: ShopService, private cdr: ChangeDetectorRef) {}
 
   shopProfile: Shop | null = null;
-  
-
-  // Si vous utilisez les Reactive Forms, vous auriez un FormGroup ici
-  // shopForm!: FormGroup;
 
   ngOnInit(): void {
     this.loadShopProfile();
-    // Si vous utilisez Reactive Forms
-    // this.shopForm = this.fb.group({
-    //   ownerName: [this.shopProfile.ownerName],
-    //   nif: [this.shopProfile.nif],
-    //   // ... autres champs
-    // });
   }
 
 loadShopProfile() { 
-    // Remplace l'ID par celui de la boutique connectée si besoin
+    this.isLoading = true;
     this.shopService.getById('69a0ae5d5413ebd0a41e49f9').subscribe({
       next: (shop) => {
         this.shopProfile = shop;
+        this.isLoading = false;
+        this.cdr.detectChanges();
         console.log('Profil chargé :', this.shopProfile);
-        //console.log('Profil chargé :', this.shopProfile);
       },
-      error: (err) => console.error('Erreur de chargement', err)
+      error: (err) => {
+        this.isLoading = false;
+        this.cdr.detectChanges();
+        console.error('Erreur de chargement', err);
+      }
     });
   }
 
@@ -89,8 +84,6 @@ loadShopProfile() {
 
   modifierAbonnement() {
     console.log("Rediriger vers la page de modification d'abonnement");
-    // Ici, vous naviguerez vers la page de sélection des abonnements
-    // this.router.navigate(['/shop/subscriptions']);
   }
 
   enregistrerModifications() {
