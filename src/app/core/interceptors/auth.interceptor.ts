@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  private apiUrl = `${environment.apiUrl}/auth`;
+  private apiUrl = `${environment.prodUrl}/auth`;
 
   constructor(private authService: AuthService,
               private http: HttpClient) {}
