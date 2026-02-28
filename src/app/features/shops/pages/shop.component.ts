@@ -91,7 +91,7 @@ export class ShopComponent implements OnInit {
 
     openEditModal(shop: Shop): void {
         this.isEditMode = true;
-        this.selectedShopId = shop._id;
+        //this.selectedShopId = shop._id;
 
         this.shopForm.patchValue({
             name: shop.name,
@@ -128,12 +128,12 @@ export class ShopComponent implements OnInit {
         }
     }
 
-    deleteShop(id: string): void {
+    deleteShop(id: string | undefined): void {
         if (!confirm('Voulez-vous vraiment supprimer cette boutique ?')) return;
 
         this.loading = true;
 
-        this.shopService.delete(id)
+        this.shopService.delete(id!)
             .pipe(finalize(() => this.loading = false))
             .subscribe(() => {
                 this.shops = this.shops.filter(c => c._id !== id);
@@ -142,6 +142,6 @@ export class ShopComponent implements OnInit {
     }
 
     trackById(index: number, item: Shop): string {
-        return item._id;
+        return item._id || `${index}`;
     }
 }

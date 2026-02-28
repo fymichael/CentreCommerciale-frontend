@@ -2,30 +2,58 @@
 <table cTable [hover]="true" align="middle" class="border m-0 text-nowrap">
     <thead class="bg-light">
     <tr>
-        <th>ID</th>
+        <th>Reference</th>
         <th>Client</th>
+        <th>Article</th>
         <th>Date</th>
+        <th>Prix unitaire sans remise</th>
+        <th>Quantité</th>
         <th>Total</th>
         <th>Statut</th>
         <th class="text-center">Action</th>
     </tr>
     </thead>
     <tbody>
-    @for (cmd of [
-        {id: '8821', client: 'Mialy Rakoto', date: '10/02/2026', total: '150 000 Ar', status: 'info', label: 'En préparation'},
-        {id: '8820', client: 'Jean Marc', date: '09/02/2026', total: '45 000 Ar', status: 'success', label: 'Livré'},
-        {id: '8819', client: 'Feno P.', date: '08/02/2026', total: '1 200 000 Ar', status: 'warning', label: 'En attente'}
-    ]; track cmd.id) {
-    <tr>
-        <td><strong>#{{cmd.id}}</strong></td>
-        <td>{{cmd.client}}</td>
-        <td>{{cmd.date}}</td>
-        <td><span class="fw-bold">{{cmd.total}}</span></td>
-        <td><c-badge [color]="cmd.status" shape="rounded-pill">{{cmd.label}}</c-badge></td>
-        <td class="text-center">
-        <button cButton color="dark" size="sm" variant="ghost" ><svg cIcon name="cilPencil" class="me-1"></svg> Gérer</button>
+    <tr *ngFor="let cmd of Orders; trackBy: trackById">
+        <td><strong>#{{cmd.reference}}</strong></td>
+        <td>{{cmd.user_id.first_name}} {{cmd.user_id.last_name}}</td>
+        <td><strong>{{cmd.product_id.name}}</strong><br><small class="text-muted">Référence {{cmd.product_id.code}}</small></td>        <td>{{cmd.createdAt | date}}</td>
+        <td>{{cmd.unit_price | number}} Ar</td>
+        <td>{{cmd.quantity}}</td>
+        <td><span class="fw-bold">{{cmd.unit_price * cmd.quantity | number}}</span></td>
+        <td>
+        <c-badge 
+            [color]="cmd.state === 1 ? 'warning' :
+                    cmd.state === 0 ? 'danger' : 
+                    cmd.state === 5 ? 'info' : 
+                    cmd.state === 10 ? 'primary' : 
+                    cmd.state === 15 ? 'secondary' : 
+                    cmd.state === 20 ? 'success' : 'dark'" 
+            shape="rounded-pill">
+            
+            {{ cmd.state === 1 ? 'En attente de paiement' :
+            cmd.state === 0 ? 'Annuler' : 
+            cmd.state === 5 ? 'Paiement validé' : 
+            cmd.state === 10 ? 'En cours de préparation' : 
+            cmd.state === 15 ? 'Colis en cours de livraison' : 
+            cmd.state === 20 ? 'Livré' : 'Inconnu' }}
+        </c-badge>
+        </td>        
+        <td class="text-center" *ngIf="cmd.state > 1 && cmd.state < 20">
+            <c-dropdown
+                color="dark" 
+                size="sm" 
+            >
+            <button cButton cDropdownToggle color="secondary">
+                <svg cIcon name="cilPencil" class="me-1"></svg> 
+                    Gérer
+                </button>
+                <ul cDropdownMenu>
+                    <li (click)="UpdateToNextStep(cmd.state, cmd._id)"><a cDropdownItem>Passer à l'étape suivante</a></li>
+                    <li (click)="AbortOrder(cmd._id)"><a cDropdownItem>Annuler la commande</a></li>
+                </ul>
+            </c-dropdown>
         </td>
     </tr>
-    }
     </tbody>
 </table>

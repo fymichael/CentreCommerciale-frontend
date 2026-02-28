@@ -17,7 +17,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        canActivate: [AuthGuard],
+        
         data: { role: 'Admin mall' },
         loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
       }, {

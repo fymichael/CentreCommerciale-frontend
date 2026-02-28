@@ -27,23 +27,11 @@
                 </div>
 
                 <c-row>
-                  <c-col md="6" class="mb-3">
+                  <c-col md="12" class="mb-3">
                     <label class="form-label-custom" for="shopname">Nom du Magasin</label>
                     <c-input-group class="custom-input-group">
                       <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilStore" size="sm"></svg></span>
                       <input cFormControl id="shopname" placeholder="Le nom de votre enseigne" class="border-start-0 ps-0" />
-                    </c-input-group>
-                  </c-col>
-                  <c-col md="6" class="mb-3">
-                    <label class="form-label-custom" for="shoptype">Secteur d'activité</label>
-                    <c-input-group class="custom-input-group">
-                      <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilTags" size="sm"></svg></span>
-                      <select id="shoptype" class="form-select border-start-0 ps-0 shadow-none">
-                        <option value="" disabled selected>Choisir...</option>
-                        <option value="mode">Mode</option>
-                        <option value="electronique">Électronique</option>
-                        <option value="alimentation">Alimentation</option>
-                      </select>
                     </c-input-group>
                   </c-col>
                 </c-row>
@@ -95,7 +83,7 @@
               </div>
 
               <div class="form-section mb-4">
-                <p class="text-uppercase text-primary fw-bold small border-bottom pb-2 mb-3">3. Identité Visuelle</p>
+                <p class="text-uppercase text-primary fw-bold small border-bottom pb-2 mb-3">3. Identité et Coordonnées</p>
                 <c-row>
                   <c-col md="6" class="mb-3">
                     <div class="file-upload-wrapper">
@@ -104,6 +92,22 @@
                     </div>
                   </c-col>
                   
+                </c-row>
+                <c-row>
+                  <c-col md="6" class="mb-3">
+                    <label class="form-label-custom" for="shopadress">Adresse</label>
+                    <c-input-group class="custom-input-group">
+                      <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilStore" size="sm"></svg></span>
+                      <input cFormControl id="shopadress" placeholder="Adresse de votre boutique" class="border-start-0 ps-0" />
+                    </c-input-group>
+                  </c-col>
+                  <c-col md="6" class="mb-3">
+                    <label class="form-label-custom" for="shopcontact">Contact</label>
+                    <c-input-group class="custom-input-group">
+                      <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilStore" size="sm"></svg></span>
+                      <input cFormControl id="shopcontact" placeholder="Contact de votre boutique" class="border-start-0 ps-0" />
+                    </c-input-group>
+                  </c-col>
                 </c-row>
               </div>
 
