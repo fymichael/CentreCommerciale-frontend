@@ -1,6 +1,16 @@
+<div class="vh-100 d-flex justify-content-center align-items-center" *ngIf="isLoading">
+   <div class="spinner-border text-primary"></div>
+</div>
 <div class="d-flex justify-content-between align-items-center mb-3 px-2">
     <h5 class="fw-bold m-0">Catalogue Produits</h5>
-    <button cButton color="primary" size="sm" [cModalToggle]="addProductModal.id"> + Nouveau Produit </button>
+    <button 
+      cButton 
+      color="primary" 
+      size="sm" 
+      (click)="openAddModal()"
+    > 
+      + Nouveau Produit 
+    </button>
 </div>
 <table cTable [hover]="true" [striped]="true" align="middle" class="border m-0">
     <thead class="bg-light">
@@ -8,23 +18,23 @@
         <th>Image</th>
         <th>Désignation</th>
         <th>Prix Unit.</th>
+        <th>Categorie</th>
         <th class="text-center">Stock</th>
         <th class="text-center">Actions</th>
     </tr>
     </thead>
     <tbody>
-    @for (i of [1,2,3,4,5]; track i) {
-    <tr>
-        <td><c-avatar src="https://via.placeholder.com/40/007bff/fff?text=P{{i}}" shape="rounded"></c-avatar></td>
-        <td><strong>Produit #{{i}}</strong><br><small class="text-muted">Référence REF-00{{i}}</small></td>
-        <td>150 000 Ar</td>
+    <tr *ngFor="let product of products; trackBy: trackById">
+        <td><c-avatar src="{{getImageUrl(product.image)}}" shape="rounded"></c-avatar></td>
+        <td><strong>{{product.name}}</strong><br><small class="text-muted">Référence {{product.code}}</small></td>
+        <td>{{product.unit_price | number}} Ar</td>
+        <td><c-badge color="info">{{product.category_id?.name}}</c-badge></td>
         <td class="text-center"><c-badge color="success">Disponible</c-badge></td>
         <td class="text-center">
-        <button cButton color="warning" variant="outline" size="sm" class="me-1" [cModalToggle]="modifyProductModal.id"><svg cIcon name="cilPencil"></svg></button>
-        <button cButton color="danger" variant="outline" size="sm" [cModalToggle]="dropProductModal.id"><svg cIcon name="cilTrash"></svg></button>
+        <button cButton color="warning" variant="outline" size="sm" class="me-1" (click)="openEditModal(product)"><svg cIcon name="cilPencil"></svg></button>
+        <button cButton color="danger" variant="outline" size="sm" (click)="deleteProduct(product._id)"><svg cIcon name="cilTrash"></svg></button>
         </td>
     </tr>
-    }
     </tbody>
 </table>
 
@@ -51,128 +61,105 @@
 <!-- Modals confirming to delete product (End) -->
 
 <!-- Modals to add new product (Start) -->
-<c-modal #addProductModal backdrop="static" id="addProductModal" size="lg">
-  <c-modal-header class="bg-primary text-white">
+<c-modal 
+  #productModal 
+  [visible]="addModalVisible" 
+  (visibleChange)="addModalVisible = $event" 
+  backdrop="static" 
+  size="lg"
+>  <c-modal-header [class]="isEditMode ? 'bg-warning text-dark' : 'bg-primary text-white'">
     <h5 cModalTitle class="fw-bold">
-      <svg cIcon name="cilBasket" class="me-2"></svg>Ajout d'un nouveau produit
+      <svg cIcon [name]="isEditMode ? 'cilPencil' : 'cilBasket'" class="me-2"></svg>
+      {{ isEditMode ? 'Modifier le produit' : 'Ajout d\'un nouveau produit' }}
     </h5>
-    <button [cModalToggle]="addProductModal.id" cButtonClose class="btn-close-white"></button>
+    <button (click)="closeAddModal()" cButtonClose [white]="!isEditMode"></button>
   </c-modal-header>
   
   <c-modal-body>
-    <form cForm class="row g-3">
+    <form cForm class="row g-3" [formGroup]="productForm">
       <c-col md="4">
-        <label cLabel for="productCode" class="fw-semibold">Code Produit</label>
-        <input cFormControl id="productCode" type="text" placeholder="Ex: ELEC-SAM-001" />
+        <label cLabel for="productCode">Code Produit</label>
+        <input cFormControl id="productCode" type="text" formControlName="code" />
       </c-col>
       <c-col md="8">
-        <label cLabel for="productLabel" class="fw-semibold">Nom du produit</label>
-        <input cFormControl id="productLabel" type="text" placeholder="Nom du produit" />
+        <label cLabel for="productLabel">Nom du produit</label>
+        <input cFormControl id="productLabel" type="text" formControlName="name" />
       </c-col>
 
       <c-col xs="12">
-        <label cLabel for="productDesc" class="fw-semibold">Description</label>
-        <textarea cFormControl id="productDesc" rows="3" placeholder="Détails techniques, garantie, état..."></textarea>
+        <label cLabel for="productDesc">Description</label>
+        <textarea cFormControl id="productDesc" formControlName="description" rows="2"></textarea>
       </c-col>
 
-      <c-col md="6">
-        <label cLabel for="productPrice" class="fw-semibold">Prix Unitaire (Ar)</label>
-        <input cFormControl id="productPrice" type="number" placeholder="0.00" />
+      <c-col md="4">
+        <label cLabel for="productPrice">Prix (Ar)</label>
+        <input cFormControl id="productPrice" type="number" formControlName="unit_price" />
       </c-col>
-      <c-col md="6">
-        <label cLabel for="productDiscount" class="fw-semibold">Remise (%)</label>
-        <input cFormControl id="productDiscount" type="number" placeholder="0" />
+      <c-col md="4">
+        <label cLabel for="productDiscount">Remise (%)</label>
+        <input cFormControl id="productDiscount" type="number" formControlName="discount_rate" />
       </c-col>
-
-      <c-col md="6">
-        <label cLabel for="productCategory" class="fw-semibold">Catégorie</label>
-        <select cSelect id="productCategory" class="form-select border-start-0 ps-0 shadow-none">
-          <option value="" disabled selected>Choisir une catégorie...</option>
-          <option value="electronics">Électronique</option>
-          <option value="textile">Textile / Mode</option>
-          <option value="food">Alimentaire</option>
-          <option value="home">Maison & Déco</option>
+      <c-col md="4">
+        <label cLabel>Catégorie</label>
+        <select cSelect formControlName="category_id" class="form-select shadow-sm">
+          <option value="" disabled>Choisir...</option>
+          <option *ngFor="let cat of categories" [value]="cat._id">{{ cat.name }}</option>
         </select>
       </c-col>
 
-      <c-col md="6">
-        <label cLabel for="productPhoto" class="fw-semibold">Photo du produit</label>
-        <input cFormControl id="productPhoto" type="file" />
-        <small class="text-muted">Format JPG, PNG (Max. 2Mo)</small>
+      <c-col md="12">
+        <label cLabel>Photo du produit</label>
+        <div class="d-flex align-items-center gap-3">
+            <input cFormControl type="file" (change)="onFileSelected($event)" />
+        </div>
       </c-col>
+
+      <ng-container *ngIf="currentConfig">
+        <hr class="my-4">
+        <c-col md="6">
+          <label cLabel class="d-block">Couleurs</label>
+          <div class="d-flex gap-2 mb-2">
+            <input #colorPicker type="color" class="form-control form-control-color" style="width: 45px;">
+            <button cButton color="info" size="sm" variant="outline" (click)="addColor(colorPicker.value)">+ Ajouter</button>
+          </div>
+          <div class="d-flex flex-wrap gap-2 p-2 border rounded bg-light">
+            <div *ngFor="let color of selectedColors; let i = index" 
+                 [style.backgroundColor]="color" 
+                 class="rounded-circle border position-relative" style="width: 25px; height: 25px;"
+                 (click)="removeColor(i)">
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 7px;">x</span>
+            </div>
+          </div>
+        </c-col>
+
+        <c-col md="6">
+          <label cLabel>{{ currentConfig.storage }}</label>
+          <input cFormControl type="text" formControlName="variant" placeholder="Séparez par des (-)" />
+        </c-col>
+
+        <c-col md="6">
+        <label cLabel for="material" class="fw-semibold">Matière</label>
+        <input cFormControl id="material" type="text" formControlName="build_material" placeholder="Ex: Cuir, Coton, Plastique..." />
+      </c-col>
+
+      <c-col md="6">
+        <label cLabel for="quality" class="fw-semibold">Qualité</label>
+        <select cSelect id="quality" class="form-select shadow-sm" formControlName="quality">
+          <option value="" disabled>Choisissez une qualité</option>
+          <option value="Authentique">Authentique</option>
+          <option value="Reconditionné">Reconditionné</option>
+        </select>
+      </c-col>
+
+      </ng-container>
     </form>
   </c-modal-body>
   
   <c-modal-footer>
-    <button [cModalToggle]="addProductModal.id" cButton color="secondary" variant="outline">
-      Annuler
-    </button>
-    <button cButton color="primary" class="px-4 shadow-sm">
-      <svg cIcon name="cilSave" class="me-2"></svg>Enregistrer le produit
-    </button>
-  </c-modal-footer>
-</c-modal>
-<!-- Modals confirming to add new product (End) -->
-
-<!-- Modals to modify product (Start) -->
-<c-modal #modifyProductModal backdrop="static" id="modifyProductModal" size="lg">
-  <c-modal-header class="bg-primary text-white">
-    <h5 cModalTitle class="fw-bold">
-      <svg cIcon name="cilBasket" class="me-2"></svg>Modifier produit
-    </h5>
-    <button [cModalToggle]="modifyProductModal.id" cButtonClose class="btn-close-white"></button>
-  </c-modal-header>
-  
-  <c-modal-body>
-    <form cForm class="row g-3">
-      <c-col md="4">
-        <label cLabel for="productCode" class="fw-semibold">Code Produit</label>
-        <input cFormControl id="productCode" type="text" value="Ex: ELEC-SAM-001" />
-      </c-col>
-      <c-col md="8">
-        <label cLabel for="productLabel" class="fw-semibold">Nom du produit</label>
-        <input cFormControl id="productLabel" type="text" value="Nom du produit" />
-      </c-col>
-
-      <c-col xs="12">
-        <label cLabel for="productDesc" class="fw-semibold">Description</label>
-        <textarea cFormControl id="productDesc" rows="3" value="Détails techniques, garantie, état..."></textarea>
-      </c-col>
-
-      <c-col md="6">
-        <label cLabel for="productPrice" class="fw-semibold">Prix Unitaire (Ar)</label>
-        <input cFormControl id="productPrice" type="number" value="0.00" />
-      </c-col>
-      <c-col md="6">
-        <label cLabel for="productDiscount" class="fw-semibold">Remise (%)</label>
-        <input cFormControl id="productDiscount" type="number" value="0" />
-      </c-col>
-
-      <c-col md="6">
-        <label cLabel for="productCategory" class="fw-semibold">Catégorie</label>
-        <select cSelect id="productCategory" class="form-select border-start-0 ps-0 shadow-none">
-          <option value="" disabled selected>Choisir une catégorie...</option>
-          <option value="electronics">Électronique</option>
-          <option value="textile">Textile / Mode</option>
-          <option value="food">Alimentaire</option>
-          <option value="home">Maison & Déco</option>
-        </select>
-      </c-col>
-
-      <c-col md="6">
-        <label cLabel for="productPhoto" class="fw-semibold">Photo du produit</label>
-        <input cFormControl id="productPhoto" type="file" />
-        <small class="text-muted">Format JPG, PNG (Max. 2Mo)</small>
-      </c-col>
-    </form>
-  </c-modal-body>
-  
-  <c-modal-footer>
-    <button [cModalToggle]="modifyProductModal.id" cButton color="secondary" variant="outline">
-      Annuler
-    </button>
-    <button cButton color="primary" class="px-4 shadow-sm">
-      <svg cIcon name="cilSave" class="me-2"></svg>Enregistrer le produit
+    <button (click)="closeAddModal()" cButton color="secondary" variant="outline">Annuler</button>
+    <button cButton [color]="isEditMode ? 'warning' : 'primary'" (click)="saveProduct()" [disabled]="productForm.invalid || loading">
+      <svg cIcon *ngIf="!loading" name="cilSave" class="me-2"></svg>
+      {{ isEditMode ? 'Mettre à jour' : 'Enregistrer' }}
     </button>
   </c-modal-footer>
 </c-modal>

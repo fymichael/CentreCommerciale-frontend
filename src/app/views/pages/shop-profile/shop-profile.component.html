@@ -1,24 +1,16 @@
-<div class="container-xxl py-4 overflow-y-auto shadow-sm bg-light" style="height: calc(100vh - 200px); scrollbar-width: thin;">
-  
+<div class="container-xxl py-4 overflow-y-auto shadow-sm bg-light" style="height: calc(100vh - 200px); scrollbar-width: thin;" *ngIf="shopProfile">
+  <div class="vh-100 d-flex justify-content-center align-items-center" *ngIf="isLoading">
+   <div class="spinner-border text-primary"></div>
+</div>
   <c-row class="g-4">
     <c-col lg="4">
       <c-card class="h-100 border-0 shadow-sm text-center">
         <c-card-body class="d-flex flex-column align-items-center justify-content-center p-4">
-          <h4 class="fw-bold text-dark mb-2">Tech Shop</h4>
-          <c-avatar [src]="'https://via.placeholder.com/150/FF6347/FFFFFF?text=T'" size="xl" class="mb-3 border border-3 border-primary shadow-sm"></c-avatar>
-          <p class="text-muted fst-italic mb-3">"L'innovation à portée de main"</p>
-  
-          <div class="bg-light p-3 rounded-3 w-100 border">
-            <div class="text-warning mb-1">
-              <svg cIcon name="cilStar" size="lg"></svg>
-              <svg cIcon name="cilStar" size="lg"></svg>
-              <svg cIcon name="cilStar" size="lg"></svg>
-              <svg cIcon name="cilStar" size="lg"></svg>
-              <svg cIcon name="cilStarHalf" size="lg"></svg>
-            </div>
-            <div class="h5 fw-bold mb-0">4.5 / 5</div>
-            <small class="text-muted">(128 avis clients)</small>
-          </div>
+          <h4 class="fw-bold text-dark mb-2">{{ shopProfile.name || 'Chargement...' }}</h4>
+          
+          <c-avatar [src]="shopProfile.logoUrl || 'https://via.placeholder.com/150'" size="xl" class="mb-3 border border-3 border-primary shadow-sm"></c-avatar>
+          
+          <p class="text-muted fst-italic mb-3">"{{ shopProfile.description || 'Aucune description' }}"</p>
         </c-card-body>
       </c-card>
     </c-col>
@@ -32,49 +24,27 @@
           <form cForm class="row g-3">
             <c-col md="6">
               <label cLabel for="ownerName">Nom du propriétaire</label>
-              <input cFormControl id="ownerName" type="text" value="Dupont Jean" />
+              <input cFormControl id="ownerName" type="text" [(ngModel)]="shopProfile.proprioName" name="proprioName" />
             </c-col>
             <c-col md="6">
               <label cLabel for="nifStat">NIF / STAT</label>
-              <input cFormControl id="nifStat" type="text" value="1234567890" />
+              <input cFormControl id="nifStat" type="text" [(ngModel)]="shopProfile.fiscal_number" name="fiscal_number" />
             </c-col>
             <c-col md="6">
               <label cLabel for="contact">Contact</label>
-              <input cFormControl id="contact" type="tel" value="+261 32 12 345 67" />
+              <input cFormControl id="contact" type="tel" [(ngModel)]="shopProfile.contact" name="contact" />
             </c-col>
             <c-col md="6">
               <label cLabel for="address">Adresse</label>
-              <input cFormControl id="address" type="text" value="123 Avenue de la République, Antananarivo" />
+              <input cFormControl id="address" type="text" [(ngModel)]="shopProfile.address" name="address" />
             </c-col>
             <c-col xs="12">
               <label cLabel for="email">Email</label>
-              <input cFormControl id="email" type="email" value="contact.tech@example.com" />
-            </c-col>
-            <c-col md="6">
-              <label cLabel for="shopType">Type de la boutique</label>
-              <select cSelect id="shopType" class="form-select border-start-0 ps-0 shadow-none">
-                <option>Électronique</option>
-                <option>Textile</option>
-                <option>Alimentaire</option>
-              </select>
-            </c-col>
-            <c-col md="6">
-                <label cLabel>Type d'abonnement</label>
-                <div class="d-flex gap-2">
-                    <c-badge color="primary" class="py-2 px-3 fw-bold fs-6 flex-grow-1">Classique</c-badge>
-                    <button cButton color="info" variant="outline" size="sm">
-                        <svg cIcon name="cilPencil"></svg>
-                    </button>
-                </div>
+              <input cFormControl id="email" type="email" [(ngModel)]="shopProfile.email" name="email" />
             </c-col>
             <c-col xs="6">
-                <button cButton color="success" class="text-white shadow-sm">
+                <button cButton color="success" class="text-white shadow-sm" (click)="enregistrerModifications()">
                   <svg cIcon name="cilSave" class="me-2"></svg> Enregistrer les modifications
-                </button>
-            </c-col>
-            <c-col xs="6">
-                <button cButton color="danger" class="text-white shadow-sm" [cModalToggle]="stopSubscriptionModal.id">
-                  Arrêter l'abonnement
                 </button>
             </c-col>
           </form>

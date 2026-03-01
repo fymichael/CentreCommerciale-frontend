@@ -2,6 +2,13 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'dashboard',
+    loadComponent: () => import('../dashboard/dashboard.component').then(m => m.DashboardComponent),
+    data: {
+      title: 'Dashboard'
+    }
+  },
+  {
     path: '404',
     loadComponent: () => import('./page404/page404.component').then(m => m.Page404Component),
     data: {
@@ -24,7 +31,7 @@ export const routes: Routes = [
   },
   {
     path: 'register',
-    loadComponent: () => import('./register/register.component').then(m => m.RegisterComponent),
+    loadComponent: () => import('../../features/registers/pages/register.component').then(m => m.RegisterComponent),
     data: {
       title: 'Register Page'
     }
@@ -38,7 +45,7 @@ export const routes: Routes = [
   },
   {
     path: 'user-managment',
-    loadComponent: () => import('./user-managment/user-managment.component').then(m => m.UserManagmentComponent),
+    loadComponent: () => import('../../features/users/pages/user-managment.component').then(m => m.UserManagmentComponent),
     data: {
       title: 'User Managment Page'
     }
