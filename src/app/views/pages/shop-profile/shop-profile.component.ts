@@ -59,7 +59,7 @@ export class ShopProfileComponent implements OnInit {
 
 loadShopProfile() { 
     this.isLoading = true;
-    this.shopService.getById('69a0ae5d5413ebd0a41e49f9').subscribe({
+    this.shopService.getById('6985dd67d65c110c94628ca0').subscribe({
       next: (shop) => {
         this.shopProfile = shop;
         this.isLoading = false;

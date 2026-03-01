@@ -150,7 +150,7 @@ export class ShopComponent implements OnInit {
         case 1:
             return { label: 'Disponible', color: 'warning' };
         case 5:
-            return { label: 'Abonné', color: 'success' };
+            return { label: 'En abonnement', color: 'success' };
         case 0:
             return { label: 'Désactivé', color: 'danger' };
         default:

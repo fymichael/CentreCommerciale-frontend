@@ -59,7 +59,7 @@ export class ShopProductComponent {
   currentConfig: any = null;
 
 ngOnInit(): void {
-  const shopId = '69a0ae5d5413ebd0a41e49f9'; 
+  const shopId = '6985dd67d65c110c94628ca0'; 
   
   this.isLoading = true;
   this.loadProductsByIdShop(shopId);
@@ -91,7 +91,7 @@ removeColor(index: number) {
     unit_price: [0, [Validators.required, Validators.min(0)]],
     discount_rate: [0, [Validators.min(0), Validators.max(100)]],
     category_id: ['', Validators.required],
-    shop_id: '69a0ae5d5413ebd0a41e49f9',
+    shop_id: '6985dd67d65c110c94628ca0',
     variant: ['', Validators.required],
     build_material: ['', Validators.required],
     quality: ['Authentique', Validators.required],
@@ -120,7 +120,7 @@ saveProduct() {
   });
 
   formData.append('color', this.selectedColors.join('-'));
-  formData.append('shop_id', '69a0ae5d5413ebd0a41e49f9');
+  formData.append('shop_id', '6985dd67d65c110c94628ca0');
 
   if (this.selectedFile) {
     formData.append('image', this.selectedFile);
@@ -188,7 +188,7 @@ loadProductsByIdShop(shopId: string): void {
   }
 
    loadShopById(): void {
-    this.shopService.getById('69a0ae5d5413ebd0a41e49f9').subscribe({
+    this.shopService.getById('6985dd67d65c110c94628ca0').subscribe({
       next: (data) => {
         this.shop = data;
         this.cd.detectChanges();
@@ -215,13 +215,13 @@ loadProductsByIdShop(shopId: string): void {
     this.productService.delete(id).subscribe({
       next: () => {
         this.products = this.products.filter(p => p._id !== id);
-        this.loadProductsByIdShop('69a0ae5d5413ebd0a41e49f9'); // Reload products for the same shop
+        this.loadProductsByIdShop('6985dd67d65c110c94628ca0'); // Reload products for the same shop
       }
     });
   }
 
   afterSave(): void {
-    this.loadProductsByIdShop('69a0ae5d5413ebd0a41e49f9');
+    this.loadProductsByIdShop('6985dd67d65c110c94628ca0');
     this.closeAddModal();
     this.productForm.reset();
     this.imagePreview = null;
