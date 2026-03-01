@@ -14,6 +14,10 @@ export class ShopService {
     return this.http.get<Shop[]>(this.apiUrl);
   }
 
+  getAllDispo(): Observable<Shop[]> {
+    return this.http.get<Shop[]>(`${this.apiUrl}?state=1`);
+  }
+
   getById(id: string): Observable<Shop> {
     return this.http.get<Shop>(`${this.apiUrl}/${id}`);
   }

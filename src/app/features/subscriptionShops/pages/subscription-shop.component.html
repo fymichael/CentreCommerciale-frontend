@@ -1,0 +1,289 @@
+<div class="p-4 bg-light min-vh-100">
+    <!-- User list (Start) -->
+    <c-row>
+        <c-col xs>
+            <c-card class="mb-4 border-0 shadow-sm">
+                <c-card-body class="p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-bold text-dark mb-0">
+                            Suivi des abonnements boutiques
+                        </h3>
+                        <div class="d-flex align-items-center gap-2">
+                            <button
+                                cButton
+                                color="secondary"
+                                variant="outline"
+                                size="sm"
+                                (click)="filtersVisible = true"
+                                title="Filtrer les utilisateurs"
+                            >
+                            <svg cIcon name="cilFilter" class="me-2"></svg>
+                                Filtrer
+                            </button>
+
+                            <button
+                                *ngIf="isAdminMall"
+                                cButton
+                                color="primary"
+                                size="sm"
+                                (click)="openAddModal()"
+                            >
+                            <svg cIcon name="cilPlus" class="me-2"></svg>
+                                Nouveau abonnement
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <app-filter-sidebar 
+                        [(visible)]="filtersVisible"
+                        [fields]="subscriptionShopFilterFields"
+                        title="Filtrer les utilisateurs"
+                        (filterApplied)="onFilterApplied($event)"
+                        (filterReset)="onFilterApplied({})">
+                    </app-filter-sidebar>
+
+                    <table
+                        [hover]="true"
+                        [responsive]="true"
+                        [striped]="true"
+                        align="middle"
+                        cTable
+                        class="mb-0 border"
+                    >
+                        <thead class="text-nowrap">
+                            <tr>
+                                <th class="bg-body-tertiary">Reference</th>
+                                <th class="bg-body-tertiary text-center">Boutique</th>
+                                <th class="bg-body-tertiary">Username</th>
+                                <th class="bg-body-tertiary">Prix / mois</th>
+                                <th class="bg-body-tertiary">Status</th>
+                                <th class="bg-body-tertiary text-center">Date création</th>
+                                <th class="bg-body-tertiary text-center">Date modification</th>
+                                <th class="bg-body-tertiary text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (item of subscriptionShops; track trackById) {
+                                <tr>
+                                    <td>
+                                        <div class="fw-semibold">{{ item.reference }}</div>
+                                    </td>
+                                    <td class="text-center">
+                                        {{ item.shop_id.name }}
+                                    </td>
+                                    <td>
+                                        <span class="font-monospace">{{ item.user_id.username }}</span>
+                                    </td>
+                                     <td class="text-center">
+                                        {{ item.price }}
+                                    </td>
+                                   
+                                    <td class="text-center">
+                                        <c-badge [color]="stateConfigMap[item.state]?.color">
+                                            {{ stateConfigMap[item.state]?.label }}
+                                        </c-badge>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="small text-body-secondary">Créer le</div>
+                                        <div class="fw-semibold">{{ item.createdAt | date:'dd/MM/yyyy' }}</div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="small text-body-secondary">Modifier le</div>
+                                        <div class="fw-semibold">{{ item.updatedAt | date:'dd/MM/yyyy' }}</div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="d-flex justify-content-center gap-2" *ngIf="isAdminMall">
+                                            <button
+                                                cButton
+                                                color="info"
+                                                variant="outline"
+                                                size="sm"
+                                                (click)="openEditModal(item)"
+                                                title="Modifier"
+                                            >
+                                                <svg cIcon name="cilPencil"></svg>
+                                            </button>
+
+                                            <button
+                                                cButton
+                                                color="danger"
+                                                variant="outline"
+                                                size="sm"
+                                                (click)="deleteSubscriptionShop(item._id)"
+                                                title="Supprimer"
+                                            >
+                                                <svg cIcon name="cilTrash"></svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div>
+                            Total : {{ totalItems }}
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button 
+                            cButton 
+                            size="sm"
+                            [disabled]="currentPage === 1"
+                            (click)="previousPage()">
+                            Précédent
+                            </button>
+
+                            <span class="align-self-center">
+                            Page {{ currentPage }} / {{ totalPages }}
+                            </span>
+
+                            <button 
+                            cButton 
+                            size="sm"
+                            [disabled]="currentPage === totalPages"
+                            (click)="nextPage()">
+                            Suivant
+                            </button>
+                        </div>
+                    </div>
+                </c-card-body>
+            </c-card>
+        </c-col>
+    <!-- User list (End) -->
+    </c-row>
+</div>
+<!-- Modals confirming rejection user admission (Start) -->
+<c-modal #rejectUserModal backdrop="static" id="rejectUserModal">
+    <c-modal-header>
+        <h5 cModalTitle>Confirmation de rejet d'admission</h5>
+        <button [cModalToggle]="rejectUserModal.id" cButtonClose></button>
+    </c-modal-header>
+    
+    <c-modal-body>
+        Voulez-vous rejeter l'admission de l'utilisateur <strong> Linda </strong> ?
+    </c-modal-body>
+    
+    <c-modal-footer>
+        <button [cModalToggle]="rejectUserModal.id" cButton color="secondary">
+            Annuler
+        </button>
+        <button cButton color="primary">
+            Confirmer
+        </button>
+    </c-modal-footer>
+</c-modal>
+<!-- Modals confirming rejection user admission (End) -->
+ 
+<c-modal
+    [visible]="addModalVisible"
+    (visibleChange)="addModalVisible = $event"
+    size="lg"
+>
+    <c-modal-header>
+        <h5 class="modal-title">Ajouter un nouveau abonnement</h5>
+        <button cButtonClose (click)="closeAddModal()"></button>
+    </c-modal-header>
+
+    <c-modal-body>
+        <form [formGroup]="subscriptionShopForm" cForm>
+            <div class="form-section mb-4">
+                <p class="text-uppercase text-primary fw-bold small border-bottom pb-2 mb-3">1. Informations Personnelles</p>
+                <c-row>
+                    <c-col md="6" class="mb-3">
+                        <label class="form-label-custom" for="reference">Reference</label>
+                        <c-input-group class="custom-input-group">
+                        <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilUser" size="sm"></svg></span>
+                        <input 
+                            cFormControl 
+                            type="text"
+                            formControlName="reference"
+                            id="reference" 
+                            class="border-start-0 ps-0" 
+                        />
+                        </c-input-group>
+                        <div *ngIf="getControl('reference')?.touched && getControl('reference')?.invalid" class="text-danger small mt-1">
+                            <span *ngIf="getControl('reference')?.errors?.['required']">Le réference est requis.</span>
+                            <span *ngIf="getControl('reference')?.errors?.['reference']">Réference invalide.</span>
+                        </div>
+                    </c-col>
+                    <c-col md="6" class="mb-3">
+                        <label class="form-label-custom" for="shop">Boutique</label>
+                        <c-input-group class="custom-input-group">
+                            <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilCalendar" size="sm"></svg></span>
+                            <select
+                                cSelect
+                                class="form-select shadow-sm"
+                                formControlName="shop_id">
+                                <option value="" disabled>Choisir une boutique</option>
+                                <option *ngFor="let shop of shops"
+                                        [value]="shop._id">
+                                    {{ shop.name }}
+                                </option>
+                            </select>
+                        </c-input-group>
+                        <div *ngIf="getControl('shop_id')?.touched && getControl('shop_id')?.invalid" class="text-danger small mt-1">
+                            <span *ngIf="getControl('shop_id')?.errors?.['required']">La boutique est requis.</span>
+                            <span *ngIf="getControl('shop_id')?.errors?.['shop_id']">Boutique invalide.</span>
+                        </div>
+                    </c-col>
+                    <c-col md="6" class="mb-3">
+                        <label class="form-label-custom" for="user_id">Utilisateur</label>
+                        <c-input-group class="custom-input-group">
+                            <span cInputGroupText class="bg-white border-end-0"><svg cIcon name="cilCalendar" size="sm"></svg></span>
+                            <select
+                                cSelect
+                                class="form-select shadow-sm"
+                                formControlName="user_id">
+                                <option value="" disabled>Choisir un utilisateur</option>
+                                <option *ngFor="let user of users"
+                                        [value]="user._id">
+                                    {{ user.username }}
+                                </option>
+                            </select>
+                        </c-input-group>
+                        <div *ngIf="getControl('user_id')?.touched && getControl('user_id')?.invalid" class="text-danger small mt-1">
+                            <span *ngIf="getControl('user_id')?.errors?.['required']">L'utilisateur est requis.</span>
+                            <span *ngIf="getControl('user_id')?.errors?.['user_id']">Utilisateur invalide.</span>
+                        </div>
+                    </c-col>
+                    <c-col md="6" class="mb-3" *ngIf="isEditMode">
+                        <label class="form-label-custom" for="state">Statut</label>
+                        <c-input-group class="custom-input-group">
+                            <span cInputGroupText class="bg-white border-end-0">
+                            <svg cIcon name="cilInfo" size="sm"></svg>
+                            </span>
+                            <select
+                                cSelect
+                                class="form-select shadow-sm"
+                                formControlName="state">
+                                <option *ngFor="let s of stateOptions" [value]="s.value">
+                                    {{ s.label }}
+                                </option>
+                            </select>
+                        </c-input-group>
+                    </c-col>
+                </c-row>
+            </div>
+        </form>
+    </c-modal-body>
+
+    <c-modal-footer>
+        <button cButton color="secondary" (click)="closeAddModal()">
+            Annuler
+        </button>
+        <button
+            cButton
+            color="primary"
+            (click)="saveSubscriptionShop()"
+            [disabled]="subscriptionShopForm.invalid"
+        >
+            {{ isEditMode ? 'Mettre à jour' : 'Enregistrer' }}
+        </button>
+
+        <!-- Affichage erreurs globales -->
+        <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+            {{ errorMessage }}
+        </div>
+    </c-modal-footer>
+</c-modal>

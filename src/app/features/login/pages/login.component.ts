@@ -109,7 +109,6 @@ export class LoginComponent {
     }
 
     if (role === 'Admin shop') {
-      console.log("tafiditra", role);
       this.router.navigate(['/shop-profile']);
     } 
     else if (role === 'Admin mall') {
