@@ -28,7 +28,7 @@
         <td><c-avatar src="{{getImageUrl(product.image)}}" shape="rounded"></c-avatar></td>
         <td><strong>{{product.name}}</strong><br><small class="text-muted">Référence {{product.code}}</small></td>
         <td>{{product.unit_price | number}} Ar</td>
-        <td><c-badge color="info">{{product.category_id?.name}}</c-badge></td>
+        <td><c-badge color="info">{{product.category_id!.name}}</c-badge></td>
         <td class="text-center"><c-badge color="success">Disponible</c-badge></td>
         <td class="text-center">
         <button cButton color="warning" variant="outline" size="sm" class="me-1" (click)="openEditModal(product)"><svg cIcon name="cilPencil"></svg></button>

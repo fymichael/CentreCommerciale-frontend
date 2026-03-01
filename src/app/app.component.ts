@@ -7,11 +7,13 @@ import { delay, filter, map, tap } from 'rxjs/operators';
 import { ColorModeService } from '@coreui/angular';
 import { IconSetService } from '@coreui/icons-angular';
 import { iconSubset } from './icons/icon-subset';
+// Import the CloudinaryModule.
+import {CloudinaryModule} from '@cloudinary/ng';
 
 @Component({
     selector: 'app-root',
     template: '<router-outlet />',
-    imports: [RouterOutlet]
+    imports: [RouterOutlet, CloudinaryModule]
 })
 export class AppComponent implements OnInit {
   title = 'CoreUI Angular Admin Template';
