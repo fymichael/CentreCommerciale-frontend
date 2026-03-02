@@ -27,24 +27,10 @@ export const navItems: (INavData & { roles?: string[] })[] = [
   },
 
   {
-    name: 'Boutiques',
-    url: '/shop-managment',
-    iconComponent: { name: 'cil-home' },
-    roles: ['Admin mall']
-  },
-
-  {
     name: 'Catégories',
     url: '/category-managment',
     iconComponent: { name: 'cil-tags' }, 
-    roles: ['Admin shop']
-  },
-
-  {
-    name: 'Produits',
-    url: '/product-managment',
-    iconComponent: { name: 'cil-basket' }, 
-    roles: ['Admin shop']
+    roles: ['Admin mall']
   },
 
   {
@@ -52,14 +38,19 @@ export const navItems: (INavData & { roles?: string[] })[] = [
     name: 'Espace Client',
     roles: ['Admin shop']
   },
-
   {
-    name: 'Profil de la boutique',
-    url: '/shop-profile',
+    name: 'Boutiques',
+    url: '/shop-managment',
     iconComponent: { name: 'cil-home' },
-    roles: ['Admin shop']
+    roles: ['Admin Shop']
   },
 
+  {
+    name: 'Gestion abonnement',
+    url: '/subscription-shop',
+    iconComponent: { name: 'cil-home' },
+    roles: ['Admin shop', 'Admin mall']
+  },
   {
     name: 'Se deconnecter',
     url: '/log-out',

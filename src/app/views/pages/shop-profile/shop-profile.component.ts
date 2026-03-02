@@ -16,6 +16,7 @@ import { ShopService } from '../../../features/shops/services/shop.service';
 import { Shop } from '../../../features/shops/models/shop.model';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-shop-profile',
@@ -49,17 +50,21 @@ import { ChangeDetectorRef } from '@angular/core';
 export class ShopProfileComponent implements OnInit {
   isLoading = false;
 
-  constructor(private shopService: ShopService, private cdr: ChangeDetectorRef) {}
+  constructor(private shopService: ShopService, private cdr: ChangeDetectorRef, private route: ActivatedRoute) {}
 
   shopProfile: Shop | null = null;
 
   ngOnInit(): void {
-    this.loadShopProfile();
+    const shopId = this.route.snapshot.paramMap.get('id');
+    localStorage.setItem('currentShopId', shopId || '');
+    if (shopId) {
+      this.loadShopProfile(shopId);
+    }
   }
 
-loadShopProfile() { 
+loadShopProfile(id: string) { 
     this.isLoading = true;
-    this.shopService.getById('69a0ae5d5413ebd0a41e49f9').subscribe({
+    this.shopService.getById(id).subscribe({
       next: (shop) => {
         this.shopProfile = shop;
         this.isLoading = false;

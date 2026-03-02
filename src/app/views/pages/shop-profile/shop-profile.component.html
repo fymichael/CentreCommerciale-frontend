@@ -42,27 +42,11 @@
               <label cLabel for="email">Email</label>
               <input cFormControl id="email" type="email" [(ngModel)]="shopProfile.email" name="email" />
             </c-col>
-            <c-col xs="6">
-                <button cButton color="success" class="text-white shadow-sm" (click)="enregistrerModifications()">
-                  <svg cIcon name="cilSave" class="me-2"></svg> Enregistrer les modifications
-                </button>
-            </c-col>
           </form>
         </c-card-body>
       </c-card>
     </c-col>
   </c-row>
-  
-  <button 
-    cButton 
-    color="secondary" 
-    variant="outline" 
-    size="sm" 
-    class="mt-4 d-flex align-items-center" 
-    [routerLink]="['/subscription-shop']">
-    <svg cIcon name="cilArrowLeft" class="me-1"></svg> 
-    Activer la boutique
-  </button>
 
   <c-tabs [activeItemKey]="'products'" class="mt-4">
     <c-tabs-list variant="tabs">

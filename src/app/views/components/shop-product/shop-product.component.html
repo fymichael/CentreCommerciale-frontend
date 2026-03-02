@@ -1,7 +1,8 @@
 <div class="vh-100 d-flex justify-content-center align-items-center" *ngIf="isLoading">
    <div class="spinner-border text-primary"></div>
 </div>
-<div class="d-flex justify-content-between align-items-center mb-3 px-2">
+<p *ngIf="!isLoading && products.length === 0" class="text-center text-muted"> Aucun produit disponible pour cette boutique. </p>
+<div class="d-flex justify-content-between align-items-center mb-3 px-2" *ngIf="!isLoading && products.length > 0">
     <h5 class="fw-bold m-0">Catalogue Produits</h5>
     <button 
       cButton 
@@ -25,7 +26,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let product of products; trackBy: trackById">
-        <td><c-avatar src="{{getImageUrl(product.image)}}" shape="rounded"></c-avatar></td>
+        <td><c-avatar src="{{product.image}}" shape="rounded"></c-avatar></td>
         <td><strong>{{product.name}}</strong><br><small class="text-muted">Référence {{product.code}}</small></td>
         <td>{{product.unit_price | number}} Ar</td>
         <td><c-badge color="info">{{product.category_id!.name}}</c-badge></td>

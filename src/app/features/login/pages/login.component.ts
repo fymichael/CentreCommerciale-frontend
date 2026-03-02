@@ -109,12 +109,13 @@ export class LoginComponent {
     }
 
     if (role === 'Admin shop') {
-      console.log("tafiditra", role);
       this.router.navigate(['/shop-profile']);
     } 
     else if (role === 'Admin mall') {
       this.router.navigate(['/dashboard']);
-    } 
+    } else if (role === 'Client') {
+      this.router.navigate(['https://centre-commerciale-front-office.vercel.app/Home']);
+    }
     else {
       this.router.navigate(['/dashboard']);
     }

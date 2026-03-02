@@ -1,80 +1,71 @@
 <div class="d-flex justify-content-between align-items-center mb-3 px-2">
-    <div>
-      <h5 class="fw-bold m-0">État des Stocks</h5>
-      <small class="text-muted">Surveillance et ajustement des quantités disponibles</small>
-    </div>
-    <div class="d-flex gap-2">
-      <button cButton color="dark" variant="outline" size="sm">
-        <svg cIcon name="cilCloudDownload" class="me-1"></svg> Exporter l'inventaire
-      </button>
-      <button cButton color="info" size="sm" class="text-white" [cModalToggle]="addStockTransactionModal.id">
-        <svg cIcon name="cilPlus" class="me-1"></svg> Nouvelle entrée
-      </button>
-    </div>
+  <div>
+    <h5 class="fw-bold m-0">État des Stocks</h5>
+    <small class="text-muted">Surveillance et ajustement des quantités disponibles</small>
   </div>
+  <div class="d-flex gap-2">
+    <button cButton color="dark" variant="outline" size="sm">
+      <svg cIcon name="cilCloudDownload" class="me-1"></svg> Exporter l'inventaire
+    </button>
+    <button cButton color="info" size="sm" class="text-white" [cModalToggle]="addStockTransactionModal.id">
+      <svg cIcon name="cilPlus" class="me-1"></svg> Nouvelle entrée
+    </button>
+  </div>
+</div>
 
-  <c-row class="mb-3 g-2">
-      <c-col md="4">
-        <div class="border rounded p-2 bg-light d-flex align-items-center">
-          <div class="bg-danger rounded-circle p-2 me-3">
-              <svg cIcon name="cil-bell-exclamation" class="text-white"></svg>
-          </div>
-          <div>
-            <div class="fw-bold">3 Ruptures</div>
-            <small class="text-muted">Produits à réapprovisionner</small>
-          </div>
-        </div>
-      </c-col>
-      <c-col md="4">
-          <div class="border rounded p-2 bg-light d-flex align-items-center">
-            <div class="bg-warning rounded-circle p-2 me-3">
-                <svg cIcon name="cilSpeedometer" class="text-white"></svg>
-            </div>
-            <div>
-              <div class="fw-bold">8 Stocks faibles</div>
-              <small class="text-muted">Seuil d'alerte atteint</small>
-            </div>
-          </div>
-        </c-col>
-    </c-row>
-      <table cTable [hover]="true" [striped]="true" align="middle" class="border m-0">
-        <thead class="bg-light">
-          <tr>
-            <th>Référence</th>
-            <th>Produit</th>
-            <th class="text-center">Quantité actuelle</th>
-            <th class="text-center">Statut</th>
-            <th class="text-center">Dernière date d'entrée</th>
-            <th class="text-center">Dernière date de sortie</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (item of [
-            {ref: 'REF-001', name: 'Smartphone Samsung S23', qty: 12, alert: 5, dateIn: '11/02/2026', dateOut: '12/02/2026'},
-            {ref: 'REF-004', name: 'Casque Bluetooth Sony', qty: 3, alert: 10, dateIn: '10/02/2026', dateOut: '13/02/2026'},
-            {ref: 'REF-009', name: 'Chargeur Rapide 45W', qty: 0, alert: 20, dateIn: '09/02/2026', dateOut: ''}
-          ]; track item.ref) {
-          <tr>
-            <td><code class="fw-bold">{{item.ref}}</code></td>
-            <td>{{item.name}}</td>
-            <td class="text-center">
-              <span class="h6 fw-bold">{{item.qty}}</span>
-            </td>
-            <td class="text-center">
-              <c-badge 
-                [color]="item.qty === 0 ? 'danger' : (item.qty <= item.alert ? 'warning' : 'success')"
-                shape="rounded-pill">
-                {{ item.qty === 0 ? 'Rupture' : (item.qty <= item.alert ? 'Stock faible' : 'En stock') }}
-              </c-badge>
-            </td>
-            <td class="text-center small">{{item.dateIn}}</td>
-            <td class="text-center small">{{item.dateOut}}</td>
-          </tr>
-          }
-        </tbody>
-      </table>
+<c-row class="mb-3 g-2">
+  <c-col md="4">
+    <div class="border rounded p-2 bg-light d-flex align-items-center">
+      <div class="bg-danger rounded-circle p-2 me-3">
+        <svg cIcon name="cil-bell-exclamation" class="text-white"></svg>
+      </div>
+      <div>
+        <div class="fw-bold">{{ruptures}} Ruptures</div>
+        <small class="text-muted">Produits à réapprovisionner</small>
+      </div>
+    </div>
+  </c-col>
+  <c-col md="4">
+    <div class="border rounded p-2 bg-light d-flex align-items-center">
+      <div class="bg-warning rounded-circle p-2 me-3">
+        <svg cIcon name="cilSpeedometer" class="text-white"></svg>
+      </div>
+      <div>
+        <div class="fw-bold">{{lowStocks}} Stocks faibles</div>
+        <small class="text-muted">Seuil d'alerte atteint</small>
+      </div>
+    </div>
+  </c-col>
+</c-row>
 
-      <!-- Modals to add stock transaction (Start) -->
+<table cTable [hover]="true" [striped]="true" align="middle" class="border m-0">
+  <thead class="bg-light">
+    <tr>
+      <th>Référence</th>
+      <th>Produit</th>
+      <th class="text-center">Quantité actuelle</th>
+      <th class="text-center">Statut</th>
+      <th class="text-center">Dernière date d'entrée</th>
+      <th class="text-center">Dernière date de sortie</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of productsForStock">
+      <td><code class="fw-bold">{{item.code}}</code></td>
+      <td>{{item.name}}</td>
+      <td class="text-center"><span class="h6 fw-bold">{{item.stock_quantity}}</span></td>
+      <td class="text-center">
+        <c-badge [color]="getStockBadgeColor(item.stock_quantity)" shape="rounded-pill">
+          {{ getStockStatus(item.stock_quantity) }}
+        </c-badge>
+      </td>
+      <td class="text-center small">{{item.updatedAt | date:'dd/MM/yyyy'}}</td>
+      <td class="text-center small">{{item.updatedAt | date:'dd/MM/yyyy'}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Modal Ajouter Stock -->
 <c-modal #addStockTransactionModal backdrop="static" id="addStockTransactionModal" size="lg">
   <c-modal-header class="bg-primary text-white">
     <h5 cModalTitle class="fw-bold">
@@ -82,38 +73,34 @@
     </h5>
     <button [cModalToggle]="addStockTransactionModal.id" cButtonClose class="btn-close-white"></button>
   </c-modal-header>
-  
+
   <c-modal-body>
     <form cForm class="row g-3">
       <c-col md="6">
         <label cLabel for="productCategory" class="fw-semibold">Produits</label>
-        <select cSelect id="productCategory" class="form-select border-start-0 ps-0 shadow-none">
-          <option value="" disabled selected>Choisir un produit...</option>
-          <option value="electronics">PRD001 - Samsung S23</option>
-          <option value="textile">PRD002 - Iphone 12 64gb</option>
-          <option value="food">PRD003 - Asus Gaming</option>
-          <option value="home">PRD004 - Airpods 3</option>
+        <select id="productCategory" [(ngModel)]="selectedProduct" name="selectedProduct" class="form-select">
+          <option *ngFor="let p of products" [value]="p._id">{{p.code}} - {{p.name}}</option>
         </select>
       </c-col>
 
       <c-col md="6">
         <label cLabel for="incomeQuantity" class="fw-semibold">Quantité</label>
-        <input cFormControl id="incomeQuantity" type="number" value="0" />
+        <input cFormControl id="incomeQuantity" type="number" [(ngModel)]="quantity" name="quantity" />
       </c-col>
+
       <c-col md="6">
-        <label cLabel for="incomeDate" class="fw-semibold">Date d'entrée</label>
-        <input cFormControl id="incomeDate" type="date" />
+        <label cLabel for="unitCost" class="fw-semibold">Prix Unitaire</label>
+        <input cFormControl id="unitCost" type="number" [(ngModel)]="unitCost" name="unitCost" />
       </c-col>
     </form>
   </c-modal-body>
-  
+
   <c-modal-footer>
     <button [cModalToggle]="addStockTransactionModal.id" cButton color="secondary" variant="outline">
       Annuler
     </button>
-    <button cButton color="primary" class="px-4 shadow-sm">
-      <svg cIcon name="cilSave" class="me-2"></svg>Enregistrer la transaction
+    <button cButton color="primary" (click)="saveEntry(selectedProduct, quantity, unitCost)">
+      Enregistrer
     </button>
   </c-modal-footer>
 </c-modal>
-<!-- Modals confirming to modify product (End) -->

@@ -144,4 +144,17 @@ export class ShopComponent implements OnInit {
     trackById(index: number, item: Shop): string {
         return item._id || `${index}`;
     }
+
+    getStateConfig(state: number) {
+        switch (state) {
+        case 1:
+            return { label: 'Disponible', color: 'warning' };
+        case 5:
+            return { label: 'En abonnement', color: 'success' };
+        case 0:
+            return { label: 'Désactivé', color: 'danger' };
+        default:
+            return { label: 'Inconnu', color: 'secondary' };
+    }
+  }
 }

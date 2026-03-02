@@ -71,7 +71,7 @@
                                         {{ user.email }}
                                     </td>
                                     <td>
-                                        <span class="font-monospace">{{ user.phone_number }}</span>
+                                        <span class="font-monospace">{{ user.contact }}</span>
                                     </td>
                                      <td class="text-center">
                                         {{ user.role_id.name }}
@@ -313,22 +313,22 @@
                     <span *ngIf="getControl('address')?.errors?.['address']">Addresse invalide.</span>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label-custom" for="phone_number">Téléphone</label>
+                    <label class="form-label-custom" for="contact">Téléphone</label>
                     <c-input-group class="custom-input-group">
                         <span cInputGroupText class="bg-white border-end-0">+261</span>
                         <input 
                         cFormControl 
-                        id="phone_number" 
+                        id="contact" 
                         type="text"
-                        formControlName="phone_number"
+                        formControlName="contact"
                         placeholder="034 00 000 00" 
                         class="border-start-0 ps-0" 
                         />
                     </c-input-group>
                 </div>
-                    <div *ngIf="getControl('phone_number')?.touched && getControl('phone_number')?.invalid" class="text-danger small mt-1">
-                    <span *ngIf="getControl('phone_number')?.errors?.['required']">Le numero de telephone est requis.</span>
-                    <span *ngIf="getControl('phone_number')?.errors?.['phone_number']">Numero de telephone invalide.</span>
+                    <div *ngIf="getControl('contact')?.touched && getControl('contact')?.invalid" class="text-danger small mt-1">
+                    <span *ngIf="getControl('contact')?.errors?.['required']">Le numero de telephone est requis.</span>
+                    <span *ngIf="getControl('contact')?.errors?.['contact']">Numero de telephone invalide.</span>
                     </div>
             </div>
 
