@@ -56,8 +56,8 @@ export class LoginComponent {
   ) {
 
     this.form = this.fb.group({
-      identifier: ['', Validators.required],
-      password: ['', Validators.required]
+      identifier: ['andrianiainafymichael@gmail.com', Validators.required],
+      password: ['Etu001998', Validators.required]
     });
 
     // Si déjà connecté → redirection automatique
@@ -109,7 +109,7 @@ export class LoginComponent {
     }
 
     if (role === 'Admin shop') {
-      this.router.navigate(['/shop-profile']);
+      this.router.navigate(['/subscription-shop']);
     } 
     else if (role === 'Admin mall') {
       this.router.navigate(['/dashboard']);
