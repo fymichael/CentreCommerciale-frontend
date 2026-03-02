@@ -30,6 +30,8 @@ export class AuthGuard implements CanActivate {
         ? allowedRoles
         : [allowedRoles];
 
+      console.log("allowedRoles", roles);
+
       if (!roles.includes(currentUser.role)) {
         this.router.navigate(['/404']);
         return false;

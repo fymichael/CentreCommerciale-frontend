@@ -92,7 +92,6 @@ export class UserManagmentComponent implements OnInit {
       last_name: ['', Validators.required],
       birthday: ['', Validators.required],
       address: ['', Validators.required],
-      phone_number: ['', Validators.required],
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: [''],
@@ -145,6 +144,7 @@ passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
       .pipe(finalize(() => this.loading = false))
       .subscribe({
         next: res => {
+          console.log("res", res.data);
           this.users = res.data;
           this.totalItems = res.total;
           this.totalPages = res.totalPages;
@@ -217,7 +217,6 @@ passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
       last_name: '',
       birthday: '',
       address: '',
-      phone_number: '',
       username: '',
       email: '',
       password: '',
@@ -241,7 +240,6 @@ passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
       last_name: user.last_name,
       birthday: user.birthday,
       address: user.address,
-      phone_number: user.phone_number,
       username: user.username,
       email: user.email,
       role_id: user.role_id?._id,

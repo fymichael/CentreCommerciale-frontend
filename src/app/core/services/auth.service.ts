@@ -12,7 +12,7 @@ export class AuthService {
     constructor(private http: HttpClient, private router: Router) {}
 
     login(data: any) {
-        return this.http.post<any>(`${this.apiUrl}`, data);  
+        return this.http.post<any>(`${this.apiUrl}`, data);
     }
 
     saveTokens(tokens: any) {
@@ -51,6 +51,7 @@ export class AuthService {
             if (parts.length !== 3) return null;
 
             const payload = JSON.parse(atob(parts[1]));
+            console.log("payload", payload);
             return payload.role ?? null;
 
         } catch (error) {

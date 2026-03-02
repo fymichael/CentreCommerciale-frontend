@@ -46,12 +46,6 @@ export const navItems: (INavData & { roles?: string[] })[] = [
   },
 
   {
-    name: 'Profil de la boutique',
-    url: '/shop-profile',
-    iconComponent: { name: 'cil-home' },
-    roles: ['Admin shop']
-  },
-  {
     name: 'Gestion abonnement',
     url: '/subscription-shop',
     iconComponent: { name: 'cil-home' },

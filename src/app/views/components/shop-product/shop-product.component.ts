@@ -20,6 +20,7 @@ import { Category } from '../../../features/categories/models/category.model';
 import { environment } from '../../../../environments/environment';
 import { Shop } from '../../../features/shops/models/shop.model';
 import { ShopService } from '../../../features/shops/services/shop.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-shop-product',
@@ -40,13 +41,15 @@ export class ShopProductComponent {
   selectedProductId: string | null = null;
   isLoading = false;
   selectedColors: string[] = [];
+  currentShopId: string = localStorage.getItem('currentShopId') || '';
 
   constructor(
     private productService: ProductService,
     private categoryService: CategoryService, 
     private shopService: ShopService, 
     private fb: FormBuilder,
-    private cd: ChangeDetectorRef  
+    private cd: ChangeDetectorRef,
+    private authService: AuthService  
   ) {}
 
   categoryConfigs: any = {
@@ -59,7 +62,7 @@ export class ShopProductComponent {
   currentConfig: any = null;
 
 ngOnInit(): void {
-  const shopId = '6985dd67d65c110c94628ca0'; 
+  const shopId = this.currentShopId; 
   
   this.isLoading = true;
   this.loadProductsByIdShop(shopId);
@@ -79,10 +82,6 @@ addColor(color: string) {
   }
 }
 
-removeColor(index: number) {
-  this.selectedColors.splice(index, 1);
-}
-
   initForm(): void {
   this.productForm = this.fb.group({
     code: ['', Validators.required],
@@ -91,7 +90,7 @@ removeColor(index: number) {
     unit_price: [0, [Validators.required, Validators.min(0)]],
     discount_rate: [0, [Validators.min(0), Validators.max(100)]],
     category_id: ['', Validators.required],
-    shop_id: '6985dd67d65c110c94628ca0',
+    shop_id: this.currentShopId,
     variant: ['', Validators.required],
     build_material: ['', Validators.required],
     quality: ['Authentique', Validators.required],
@@ -120,7 +119,7 @@ saveProduct() {
   });
 
   formData.append('color', this.selectedColors.join('-'));
-  formData.append('shop_id', '6985dd67d65c110c94628ca0');
+  formData.append('shop_id', this.currentShopId);
 
   if (this.selectedFile) {
     formData.append('image', this.selectedFile);
@@ -151,6 +150,7 @@ loadProductsByIdShop(shopId: string): void {
         this.cd.detectChanges();
       },
       error: (err) => {
+        this.products = [];
         console.error('Erreur chargement produits boutique:', err);
         this.products = []; // Vide la liste en cas d'erreur
       }
@@ -188,13 +188,24 @@ loadProductsByIdShop(shopId: string): void {
   }
 
    loadShopById(): void {
-    this.shopService.getById('6985dd67d65c110c94628ca0').subscribe({
+    this.shopService.getById(this.currentShopId).subscribe({
       next: (data) => {
         this.shop = data;
         this.cd.detectChanges();
       }
     });
   }
+
+removeColor(i: number) {
+  this.selectedColors.splice(i, 1);
+  
+  if (this.productForm.get('color')) {
+    this.productForm.patchValue({
+      color: this.selectedColors.join('-')
+    });
+  }
+
+}
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
@@ -215,13 +226,13 @@ loadProductsByIdShop(shopId: string): void {
     this.productService.delete(id).subscribe({
       next: () => {
         this.products = this.products.filter(p => p._id !== id);
-        this.loadProductsByIdShop('6985dd67d65c110c94628ca0'); // Reload products for the same shop
+        this.loadProductsByIdShop(this.currentShopId); // Reload products for the same shop
       }
     });
   }
 
   afterSave(): void {
-    this.loadProductsByIdShop('6985dd67d65c110c94628ca0');
+    this.loadProductsByIdShop(this.currentShopId);
     this.closeAddModal();
     this.productForm.reset();
     this.imagePreview = null;

@@ -12,7 +12,6 @@ export interface User {
     password: string;
     contact: string;
     address: string;
-    phone_number: string;
     state: number;
     createdAt: Date;
     updatedAt: Date;

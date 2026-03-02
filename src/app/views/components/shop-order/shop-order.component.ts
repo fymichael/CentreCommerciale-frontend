@@ -9,7 +9,7 @@ import { TableModule, ButtonDirective,
   DropdownMenuDirective,
   DropdownToggleDirective
  } from '@coreui/angular';
-import { OrderService } from 'src/app/features/order/services/order-service.service';
+import { OrderService} from '../../../features/order/services/order-service.service';
 import { Order } from '../../../features/order/model/order.model';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -21,6 +21,7 @@ import { ChangeDetectorRef } from '@angular/core';
 })
 export class ShopOrderComponent {
   Orders: Order[] = [];
+  currentShopId: string = localStorage.getItem('currentShopId') || '';
   constructor(private orderService: OrderService, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
@@ -28,13 +29,14 @@ export class ShopOrderComponent {
   }
 
   loadOrders() {
-    this.orderService.getOrdersByShopId('6985dd67d65c110c94628ca0').subscribe(
+    this.orderService.getOrdersByShopId(this.currentShopId).subscribe(
       (orders) => {
         this.Orders = orders as Order[];
         console.log('Orders:', orders);
         this.cd.detectChanges();
       },
       (error) => {
+      this.Orders = [];
         console.error('Error loading orders:', error);
         this.cd.detectChanges();
       }

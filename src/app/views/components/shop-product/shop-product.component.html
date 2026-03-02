@@ -1,7 +1,8 @@
 <div class="vh-100 d-flex justify-content-center align-items-center" *ngIf="isLoading">
    <div class="spinner-border text-primary"></div>
 </div>
-<div class="d-flex justify-content-between align-items-center mb-3 px-2">
+<p *ngIf="!isLoading && products.length === 0" class="text-center text-muted"> Aucun produit disponible pour cette boutique. </p>
+<div class="d-flex justify-content-between align-items-center mb-3 px-2" *ngIf="!isLoading && products.length > 0">
     <h5 class="fw-bold m-0">Catalogue Produits</h5>
     <button 
       cButton 

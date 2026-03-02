@@ -24,10 +24,11 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { Shop } from '../../shops/models/shop.model';
 import { User } from '../../users/models/user.model';
 import { ShopService } from '../../shops/services/shop.service';
-import { AuthService } from 'src/app/core/services/auth.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-user-validation',
+  selector: 'app-subscription-shop',
   standalone: true,
   imports: [
     CardModule, 
@@ -43,7 +44,8 @@ import { AuthService } from 'src/app/core/services/auth.service';
     FormsModule,
     ReactiveFormsModule,
     OffcanvasModule,
-    FilterSidebarComponent
+    FilterSidebarComponent,
+    RouterModule
   ],
   templateUrl: './subscription-shop.component.html'
 })

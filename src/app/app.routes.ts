@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { LogoutComponent } from './component/logout.component';
+import { ShopProfileComponent } from './views/pages/shop-profile/shop-profile.component';
 
 export const routes: Routes = [
   {
@@ -53,7 +54,7 @@ export const routes: Routes = [
         loadComponent: () => import('./features/categories/pages/category-list.component').then(m => m.CategoryListComponent),
         data: {
           title: 'Category Managment Page',
-          role: ['Admin shop']
+          role: ['Admin mall']
         }
       },
       {
@@ -74,6 +75,7 @@ export const routes: Routes = [
         role: ['Admin mall', 'Admin shop']
         }
       },
+      { path: 'shop-profile/:id', component: ShopProfileComponent },
       {
         path: 'log-out',
         component: LogoutComponent

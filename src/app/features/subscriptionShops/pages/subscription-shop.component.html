@@ -69,7 +69,9 @@
                                         <div class="fw-semibold">{{ item.reference }}</div>
                                     </td>
                                     <td class="text-center">
-                                        {{ item.shop_id.name }}
+                                        <a [routerLink]="['/shop-profile', item.shop_id._id]" style="cursor: pointer; text-decoration: none;">
+                                            {{ item.shop_id.name }}
+                                        </a>
                                     </td>
                                     <td>
                                         <span class="font-monospace">{{ item.user_id.username }}</span>

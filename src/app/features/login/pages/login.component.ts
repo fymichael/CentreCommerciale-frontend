@@ -113,7 +113,9 @@ export class LoginComponent {
     } 
     else if (role === 'Admin mall') {
       this.router.navigate(['/dashboard']);
-    } 
+    } else if (role === 'Client') {
+      this.router.navigate(['https://centre-commerciale-front-office.vercel.app/Home']);
+    }
     else {
       this.router.navigate(['/dashboard']);
     }

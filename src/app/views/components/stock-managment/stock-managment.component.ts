@@ -15,7 +15,7 @@ import {
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { StockService } from '../../../features/storages/services/stock.service';
-import { ProductService } from 'src/app/features/products/services/product.service';
+import { ProductService } from '../../../features/products/services/product.service';
 import { ChangeDetectorRef, TrackByFunction } from '@angular/core';
 
 @Component({
