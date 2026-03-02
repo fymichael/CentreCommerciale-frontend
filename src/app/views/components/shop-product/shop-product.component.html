@@ -25,7 +25,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let product of products; trackBy: trackById">
-        <td><c-avatar src="{{getImageUrl(product.image)}}" shape="rounded"></c-avatar></td>
+        <td><c-avatar src="{{product.image}}" shape="rounded"></c-avatar></td>
         <td><strong>{{product.name}}</strong><br><small class="text-muted">Référence {{product.code}}</small></td>
         <td>{{product.unit_price | number}} Ar</td>
         <td><c-badge color="info">{{product.category_id!.name}}</c-badge></td>

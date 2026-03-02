@@ -20,7 +20,7 @@ export class ProductService {
   }
 
   create(data: FormData) {
-    return this.http.post<Product>(this.apiUrl, data);
+    return this.http.post<Product>(`${this.apiUrl}/create`, data);
   }
 
   getByShopId(shopId: string): Observable<Product[]> {

@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    private apiUrl = `${environment.prodUrl}/auth`;
+    //private apiUrl = `${environment.prodUrl}/auth`;
+    private apiUrl = `http://localhost:5000/auth`;
 
     constructor(private http: HttpClient, private router: Router) {}
 
@@ -49,7 +50,7 @@ export class AuthService {
             if (parts.length !== 3) return null;
 
             const payload = JSON.parse(atob(parts[1]));
-            return 'Admin shop';
+            return payload.role || null;
 
         } catch (error) {
             console.error('Token invalide:', error);

@@ -27,30 +27,23 @@ export const navItems: (INavData & { roles?: string[] })[] = [
   },
 
   {
-    name: 'Boutiques',
-    url: '/shop-managment',
-    iconComponent: { name: 'cil-home' },
-    roles: ['Admin mall']
-  },
-
-  {
     name: 'Catégories',
     url: '/category-managment',
     iconComponent: { name: 'cil-tags' }, 
-    roles: ['Admin shop']
-  },
-
-  {
-    name: 'Produits',
-    url: '/product-managment',
-    iconComponent: { name: 'cil-basket' }, 
-    roles: ['Admin shop']
+    roles: ['Admin mall']
   },
 
   {
     title: true,
     name: 'Espace Client',
     roles: ['Admin shop']
+  },
+
+  {
+    name: 'Boutiques',
+    url: '/shop-managment',
+    iconComponent: { name: 'cil-home' },
+    roles: ['Admin Shop']
   },
 
   {
