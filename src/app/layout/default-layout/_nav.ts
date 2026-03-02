@@ -38,7 +38,6 @@ export const navItems: (INavData & { roles?: string[] })[] = [
     name: 'Espace Client',
     roles: ['Admin shop']
   },
-
   {
     name: 'Boutiques',
     url: '/shop-managment',
@@ -52,7 +51,12 @@ export const navItems: (INavData & { roles?: string[] })[] = [
     iconComponent: { name: 'cil-home' },
     roles: ['Admin shop']
   },
-
+  {
+    name: 'Gestion abonnement',
+    url: '/subscription-shop',
+    iconComponent: { name: 'cil-home' },
+    roles: ['Admin shop', 'Admin mall']
+  },
   {
     name: 'Se deconnecter',
     url: '/log-out',

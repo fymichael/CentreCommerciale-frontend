@@ -101,7 +101,7 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-   loadShops(): void {
+  loadShops(): void {
     this.shopService.getAll().subscribe({
       next: (data) => {
         this.shops = data;

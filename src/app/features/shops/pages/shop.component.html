@@ -37,6 +37,7 @@
                                 <th class="bg-body-tertiary text-center">Nom</th>
                                 <th class="bg-body-tertiary text-center">Description</th>
                                 <th class="bg-body-tertiary text-center">Prix/mois</th>
+                                <th class="bg-body-tertiary text-center">Status</th>
                                 <th class="bg-body-tertiary text-center">Action</th>
                             </tr>
                             </thead>
@@ -50,6 +51,11 @@
                                     </td>
                                     <td class="text-center fw-semibold">
                                     {{ shop.price_in_month | number:'1.0-0' }} Ar
+                                    </td>
+                                    <td class="text-center">
+                                        <c-badge [color]="getStateConfig(shop.state).color">
+                                            {{ getStateConfig(shop.state).label }}
+                                        </c-badge>
                                     </td>
                                     <td class="text-center">
                                         <button

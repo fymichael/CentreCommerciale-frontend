@@ -11,9 +11,9 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  /*getAll(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl);
-  }*/
+  getAllWithoutFilter(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}/all-without-filter`);
+  }
 
   getAll(params: any): Observable<any> {
     return this.http.get<any>(this.apiUrl, { params });

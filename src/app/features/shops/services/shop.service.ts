@@ -6,12 +6,16 @@ import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ShopService {
-  private apiUrl = `${environment.prodUrl}/shops`;
+  private apiUrl = `${environment.apiUrl}/shops`;
 
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Shop[]> {
     return this.http.get<Shop[]>(this.apiUrl);
+  }
+
+  getAllDispo(): Observable<Shop[]> {
+    return this.http.get<Shop[]>(`${this.apiUrl}?state=1`);
   }
 
   getById(id: string): Observable<Shop> {
