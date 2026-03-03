@@ -44,6 +44,7 @@ export class ProductService {
   }
 
   getProductsByShop(shopId: string): Observable<Product[]> {
+    console.log(`${this.apiUrl}?shopId=${shopId}`);
     return this.http.get<Product[]>(`${this.apiUrl}?shopId=${shopId}`);
   }
 }
