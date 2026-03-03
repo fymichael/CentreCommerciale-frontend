@@ -109,7 +109,7 @@ export class LoginComponent {
     }
 
     if (role === 'Admin shop') {
-      this.router.navigate(['/shop-profile']);
+      this.router.navigate(['/dashboard']);
     } 
     else if (role === 'Admin mall') {
       this.router.navigate(['/dashboard']);

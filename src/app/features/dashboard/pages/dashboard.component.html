@@ -1,0 +1,107 @@
+<div class="dashboard-wrapper">
+
+  <!-- HEADER -->
+  <div class="dashboard-header">
+    <div>
+      <h1>Tableau de Bord</h1>
+      <p class="subtitle">Vue globale des performances</p>
+    </div>
+
+    <!-- Sélecteur d'année moderne -->
+    <div class="year-filter">
+      <label for="yearSelect">Année :</label>
+      <select id="yearSelect" [(ngModel)]="selectedYear" (change)="onYearChange(selectedYear)" class="custom-select">
+        <option *ngFor="let y of years" [value]="y">{{ y }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div *ngIf="!loading && data">
+
+    <!-- ADMIN MALL -->
+    <div *ngIf="data.type === 'mall' && mallDashboard" class="stats-grid">
+      <div class="stat-card gradient-blue">
+        <div class="stat-content">
+          <h2>{{ mallDashboard.activeUsers }} / {{ mallDashboard.totalUsers }}</h2>
+          <span>Utilisateurs actifs</span>
+        </div>
+        <div class="stat-icon">
+          <svg cIcon name="cilPeople"></svg>
+        </div>
+      </div>
+      <div class="stat-card gradient-purple">
+        <div class="stat-content">
+          <h2>{{ mallDashboard.activeShops }} / {{ mallDashboard.totalShops }}</h2>
+          <span>Boutiques actives</span>
+        </div>
+        <div class="stat-icon">
+          <svg cIcon name="cilStore"></svg>
+        </div>
+      </div>
+      <div class="stat-card gradient-green">
+        <div class="stat-content">
+          <h2>{{ mallDashboard.totalRevenu | number }} Ar</h2>
+          <span>Montant total abonnement</span>
+        </div>
+        <div class="stat-icon">
+          <svg cIcon name="cilDollar"></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN SHOP -->
+    <div *ngIf="data.type === 'shop' && shopDashboard" class="stats-grid">
+      <div class="stat-card gradient-blue">
+        <div class="stat-content">
+          <h2>{{ shopDashboard.totalClients }}</h2>
+          <span>Clients</span>
+        </div>
+        <div class="stat-icon">
+          <svg cIcon name="cilUser"></svg>
+        </div>
+      </div>
+      <div class="stat-card gradient-purple">
+        <div class="stat-content">
+          <h2>{{ shopDashboard.totalProducts }}</h2>
+          <span>Produits</span>
+        </div>
+        <div class="stat-icon">
+          <svg cIcon name="cilBoxes"></svg>
+        </div>
+      </div>
+      <div class="stat-card gradient-green">
+        <div class="stat-content">
+          <h2>{{ shopDashboard.totalRevenu | number }} Ar</h2>
+          <span>Revenu</span>
+        </div>
+        <div class="stat-icon">
+          <svg cIcon name="cilDollar"></svg>
+        </div>
+      </div>
+      <div class="stat-card gradient-orange">
+        <div class="stat-content">
+          <h2>{{ shopDashboard.totalCump | number }} Ar</h2>
+          <span>Total CUMP</span>
+        </div>
+        <div class="stat-icon">
+          <svg cIcon name="cilChartLine"></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRAPH -->
+  <div class="chart-card" *ngIf="!loading">
+    <div class="chart-header">
+      <h3>
+        <svg cIcon name="cilGraph"></svg>
+        Performance annuelle
+      </h3>
+    </div>
+    <div class="chart-body">
+      <canvas #dashboardChart></canvas>
+    </div>
+  </div>
+
+</div>
