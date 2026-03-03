@@ -45,6 +45,7 @@ export class StockManagmentComponent implements OnInit {
   productsForStock: any[] = [];
   ruptures: number = 0;
   lowStocks: number = 0;
+  currentShopId = localStorage.getItem('currentShopId') || '';
 
   // Champs du modal
   selectedProduct: string = '';
@@ -66,16 +67,18 @@ export class StockManagmentComponent implements OnInit {
   // Chargement de l’état des stocks
   loadStock() {
     this.stockService.getStockState().subscribe(data => {
-      this.productsForStock = data;
+      console.log('État des stocks chargé :', data);
+      this.productsForStock = data.filter(p => p.shop_id._id === this.currentShopId);
 
-      this.ruptures = data.filter(p => p.stock_quantity === 0).length;
-      this.lowStocks = data.filter(p => p.stock_quantity > 0 && p.stock_quantity <= 5).length;
+      this.ruptures = data.filter(p => p.stock_quantity === 0 && p.shop_id._id === this.currentShopId).length;
+      this.lowStocks = data.filter(p => p.stock_quantity > 0 && p.stock_quantity <= 5 && p.shop_id._id === this.currentShopId).length;
     });
   }
 
   loadProducts(): void {
-    this.productService.getAll().subscribe({
+    this.productService.getByShopId(this.currentShopId).subscribe({
       next: (data) => {
+        console.log('Produits chargés :', data);
         this.products = data;
         this.cd.detectChanges();
       }
